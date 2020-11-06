@@ -58,3 +58,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+OmaWatchUnity/Library
+OmaWatchUnity/Temp
+OmaWatchUnity/Logs
+obj
