@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Input;
+using Assets.Scripts.OmaWatch.Util;
 using Stateless;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-
-#pragma warning disable 1998
 
 namespace Assets.Scripts.UI
 {
@@ -65,14 +64,14 @@ namespace Assets.Scripts.UI
                 .OnEntryAsync(OnEntryInGameAsync)
                 .OnExitAsync(OnExitInGameAsync)
                 .Permit(UITrigger.Pause, UIState.Pause)
-                .Permit(UITrigger.GameOver, UIState.GameOver)
-                .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
+                .Permit(UITrigger.GameOver, UIState.GameOver);
 
             _stateMachine.Configure(UIState.Pause)
-                //.SubstateOf(UIState.InGame)
+                .SubstateOf(UIState.InGame)
                 .OnEntryAsync(OnEntryPauseAsync)
                 .OnExitAsync(OnExitPauseAsync)
-                .Permit(UITrigger.Resume, UIState.InGame);
+                .Permit(UITrigger.Resume, UIState.InGame)
+                .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
 
             _stateMachine.Configure(UIState.GameOver)
                 .OnEntryAsync(OnEntryGameOverAsync)
@@ -82,14 +81,20 @@ namespace Assets.Scripts.UI
 
         private async Task LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
+            await Awaiters.NextFrame; // switch to main thread
+            Debug.Log($"Loading {sceneName} {mode}");
             var operation = SceneManager.LoadSceneAsync(sceneName, mode);
             await operation;
+            Debug.Log($"Done loading {sceneName} {mode}");
         }
 
         private async Task UnloadScene(string sceneName)
         {
+            await Awaiters.NextFrame; // switch to main thread
+            Debug.Log($"Unloading {sceneName}");
             var operation = SceneManager.UnloadSceneAsync(sceneName);
             await operation;
+            Debug.Log($"Done unloading {sceneName}");
         }
 
         private async Task OnEntryMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -114,13 +119,15 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
+            await Awaiters.NextFrame; // switch to main thread
             Time.timeScale = 0;
             await LoadScene("Pause", LoadSceneMode.Additive);
         }
 
         private async Task OnExitPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await UnloadScene("Pause");
+            await UnloadScene("Pause").ConfigureAwait(true);
+            //await Awaiters.NextFrame; // switch to main thread
             Time.timeScale = 1;
         }
 
@@ -178,10 +185,10 @@ namespace Assets.Scripts.UI
         {
             if (!context.performed)
                 return;
-            if (_stateMachine.CanFire(UITrigger.Pause))
-                _ = Fire(UITrigger.Pause);
-            else if (_stateMachine.CanFire(UITrigger.Resume))
-                _ = Fire(UITrigger.Resume);
+            if (_stateMachine.CanFire(UITrigger.Resume))
+                Fire(UITrigger.Resume).FireAndForget();
+            else if (_stateMachine.CanFire(UITrigger.Pause))
+                Fire(UITrigger.Pause).FireAndForget();
         }
     }
 }
