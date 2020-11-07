@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: env_0008_carpet_round
+  m_Name: _wall_low_short
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 02cadd268d9fbd74abf53458e88bc134, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31bd6e156533bae479b5b64e58a5150f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: env_0003_wall_low_long
+  m_Name: _frames_small
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 9ba4fe1725054d9458813b25d4ed68d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 069e5ff8af27ee1439064aedadeae1cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

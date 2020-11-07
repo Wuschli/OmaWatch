@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: env_0001_bookshelf
+  m_Name: _plant
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: df4fcb081ccb29840960d4f5ebb8f206, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4f1bc0f8e3d8939439f20c43a1fc3840, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
