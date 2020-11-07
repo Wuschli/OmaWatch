@@ -24,16 +24,31 @@ namespace Assets.Scripts.OmaWatch.Ai
             nav.updateUpAxis = false;
         }
 
-        public void Start()
-        {
-            defaultTask.Run(this);
-        }
-
         public void Update()
         {
+            if(_currentTask != null)
+                return;
+            if(_taskQueue.Count > 0)
+                RunTask(_taskQueue.Dequeue());
 
+            RunTask(defaultTask);
         }
 
+        private async void RunTask(AbstractTask task)
+        {
+            if(_currentTask != null)
+                _currentTask.Cancel();
+
+            _currentTask = task;
+            await task.Run(this);
+            _currentTask = null;
+        }
+
+        private void OnApplicationQuit()
+        {
+            if(_currentTask != null)
+                _currentTask.Cancel();
+        }
 
         public Task<AbstractCommand.CommandResult> ExecuteCommand(AbstractCommand command)
         {
