@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc9718bb72346f9a5a668aea4d07f01, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: e0df95e8ce8172145afb5967040ac7c5, type: 3}
+  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}

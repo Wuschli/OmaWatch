@@ -47,6 +47,7 @@ namespace Assets.Scripts.OmaWatch
             if (inputDirection.sqrMagnitude > 1)
                 inputDirection.Normalize();
             var translation = inputDirection * Speed * Time.deltaTime;
+            translation *= new Vector2(1f, 0.5f);
             transform.Translate(translation.ToVector3());
             if (inputDirection.sqrMagnitude > .01f)
                 _lastDirection = inputDirection.normalized;
