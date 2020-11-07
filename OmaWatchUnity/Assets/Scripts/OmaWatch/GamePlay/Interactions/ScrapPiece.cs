@@ -3,12 +3,24 @@ using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public class ScrapPiece : AbstractPickUpItem
     {
-        protected override async Task PickUpAsync(PlayerController player)
+        public ScrapPieceConfig Config;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            GetComponent<SpriteRenderer>().sprite = Config.Sprite;
+        }
+
+        protected override async Task<bool> PickUpAsync(PlayerController player)
         {
             await Task.Yield();
             Debug.Log("SCRAP!");
+            if (player.ScrapTrail != null)
+                return player.ScrapTrail.TryAddElement(Config);
+            return false;
         }
     }
 }
