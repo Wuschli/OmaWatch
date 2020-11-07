@@ -41,5 +41,10 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         {
             _cancellationToken.Cancel();
         }
+
+        public void OnCompleted(TaskResult result)
+        {
+            
+        }
     }
 }

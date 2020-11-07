@@ -8,5 +8,9 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         public abstract Task<TaskResult> Run(AgentBehaviour agent);
 
         public abstract void Cancel();
+
+        public virtual void OnCompleted(TaskResult result)
+        {
+        }
     }
 }

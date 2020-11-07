@@ -14,5 +14,6 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
     {
         Task<TaskResult> Run(AgentBehaviour agent);
         void Cancel();
+        void OnCompleted(TaskResult result);
     }
 }
