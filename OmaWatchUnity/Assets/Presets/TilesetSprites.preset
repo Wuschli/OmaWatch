@@ -166,11 +166,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SpritePivot.x
-    value: 0.458
+    value: 0.45882353
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SpritePivot.y
-    value: 0.375
+    value: 0.2166065
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_SpritePixelsToUnits
