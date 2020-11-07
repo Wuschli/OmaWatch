@@ -14,9 +14,7 @@ namespace Assets.Scripts.OmaWatch.Ai
         public Transform releasePosition;
 
         public float grabDistance = 0.25f;
-        public float grabCooldown = 5;
-        private float _currentCooldown = 0;
-
+        
         private void Awake()
         {
             _agent = GetComponent<AgentBehaviour>();
@@ -24,14 +22,8 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         private void Update()
         {
-            if (_agent.CurrentTask is GrabTask)
+            if (_agent.CurrentState != AgentBehaviour.AgentState.Chase)
                 return;
-
-            if (_currentCooldown > 0)
-            {
-                _currentCooldown -= Time.deltaTime;
-                return;
-            }
 
             if(!grabTarget.IsSuspicious)
                 return;
@@ -40,7 +32,6 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (distance > grabDistance)
                 return;
 
-            _currentCooldown = grabCooldown;
             _agent.SetTask(new GrabTask(grabTarget.gameObject, releasePosition));
         }
     }

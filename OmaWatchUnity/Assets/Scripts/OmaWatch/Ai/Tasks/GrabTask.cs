@@ -19,11 +19,15 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             _token = new CancellationTokenSource();
         }
 
+        public AgentBehaviour.AgentState State => AgentBehaviour.AgentState.Grab;
+
         public async Task<TaskResult> Run(AgentBehaviour agent)
         {
             try
             {
                 SetPlayerEnabled(false);
+                _subject.GetComponentInChildren<ScrapTrail>()?.DropAll();
+
                 _subject.transform.parent = agent.transform;    //TODO: specify grab transform
                 _subject.transform.localPosition = Vector3.zero;
 
@@ -34,6 +38,10 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             {
                 return TaskResult.Cancelled;
             }
+        }
+
+        public void Update()
+        {
         }
 
         public void Cancel()

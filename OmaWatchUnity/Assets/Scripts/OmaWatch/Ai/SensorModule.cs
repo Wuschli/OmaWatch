@@ -13,10 +13,8 @@ namespace Assets.Scripts.OmaWatch.Ai
         public SuspiciousBehaviour target;
 
         public float chaseDistance = 1;
-
-        public float chaseCooldown = 5;
-
-        private float _currentCooldown;
+        public float chaseTime = 5;
+        public float restTime = 1;
 
         public void Awake()
         {
@@ -25,14 +23,8 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public void Update()
         {
-            if (_agent.CurrentTask is ChaseTask || _agent.CurrentTask is GrabTask)
+            if (_agent.CurrentState != AgentBehaviour.AgentState.Idle)
                 return;
-
-            if (_currentCooldown > 0)
-            {
-                _currentCooldown -= Time.deltaTime;
-                return;
-            }
 
             if (!target.IsSuspicious)
                 return;
@@ -42,8 +34,8 @@ namespace Assets.Scripts.OmaWatch.Ai
                 return;
 
             Debug.Log("starting chase");
-            _agent.SetTask(new ChaseTask(target.transform, chaseCooldown));
-            _currentCooldown = chaseCooldown;
+            _agent.SetTask(new ChaseTask(target, chaseTime));
+            _agent.EnqueueTask(new ExhaustedTask(restTime));
         }
     }
 }

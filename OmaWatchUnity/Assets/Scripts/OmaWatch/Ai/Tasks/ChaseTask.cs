@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
+using Assets.Scripts.OmaWatch.Player;
 using UnityEditor.UIElements;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -11,23 +12,25 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {
     public class ChaseTask : ITask
     {
-        private readonly Transform _chaseTarget;
-        private readonly float _chaseTime;
+        private readonly SuspiciousBehaviour _chaseTarget;
         private readonly CancellationTokenSource _cancellationToken;
-        private readonly Random _random = new Random();
+        private float _chaseTime;
 
-        public ChaseTask(Transform chaseTarget, float chaseTime)
+
+        public ChaseTask(SuspiciousBehaviour chaseTarget, float chaseTime)
         {
             _chaseTarget = chaseTarget;
             _chaseTime = chaseTime;
             _cancellationToken = new CancellationTokenSource();
         }
 
+        public AgentBehaviour.AgentState State => AgentBehaviour.AgentState.Chase;
+
         public async Task<TaskResult> Run(AgentBehaviour agent)
         {
             try
             {
-                await agent.ExecuteCommand(new MoveToMovingPositionCommand(_chaseTarget, _chaseTime, _cancellationToken.Token));
+                await agent.ExecuteCommand(new MoveToMovingPositionCommand(_chaseTarget.transform, _cancellationToken.Token));
                 Debug.Log("The chase has completed");
                 return TaskResult.Success;
             }
@@ -37,6 +40,16 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             }
         }
 
+        public void Update()
+        {
+            _chaseTime -= Time.deltaTime;
+            if(_chaseTime <= 0.0f)
+                Cancel();
+
+            if(!_chaseTarget.IsSuspicious)
+                Cancel();
+        }
+
         public void Cancel()
         {
             _cancellationToken.Cancel();
@@ -44,7 +57,6 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         public void OnCompleted(TaskResult result)
         {
-            
         }
     }
 }
