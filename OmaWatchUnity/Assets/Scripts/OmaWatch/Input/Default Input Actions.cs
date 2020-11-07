@@ -27,6 +27,14 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""DropAll"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e619bb3-9ff2-4cb0-ad1a-e41ae3df8657"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -150,6 +158,28 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e25b4c7-2f28-47c5-82b7-56de98a9c8b3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""DropAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4697651-24e8-4fe6-8d0a-97261d6e85a3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""DropAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -203,6 +233,7 @@ namespace Assets.Scripts.OmaWatch.Input
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_DropAll = m_Player.FindAction("DropAll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -256,11 +287,13 @@ namespace Assets.Scripts.OmaWatch.Input
         private readonly InputActionMap m_Player;
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_DropAll;
         public struct PlayerActions
         {
             private @DefaultInputActions m_Wrapper;
             public PlayerActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
+            public InputAction @DropAll => m_Wrapper.m_Player_DropAll;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -273,6 +306,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                    @DropAll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
+                    @DropAll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
+                    @DropAll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -280,6 +316,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @Move.started += instance.OnMove;
                     @Move.performed += instance.OnMove;
                     @Move.canceled += instance.OnMove;
+                    @DropAll.started += instance.OnDropAll;
+                    @DropAll.performed += instance.OnDropAll;
+                    @DropAll.canceled += instance.OnDropAll;
                 }
             }
         }
@@ -329,6 +368,7 @@ namespace Assets.Scripts.OmaWatch.Input
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
+            void OnDropAll(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

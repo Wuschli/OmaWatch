@@ -2,10 +2,11 @@
 using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.OmaWatch
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, DefaultInputActions.IPlayerActions
     {
         public float Speed = 3f;
         public Vector2 StartRotation = Vector2.down;
@@ -18,6 +19,7 @@ namespace Assets.Scripts.OmaWatch
         private void Awake()
         {
             _defaultInput = new DefaultInputActions();
+            _defaultInput.Player.SetCallbacks(this);
 
             var nav = GetComponent<NavMeshAgent>();
             if (nav != null)
@@ -51,6 +53,16 @@ namespace Assets.Scripts.OmaWatch
             _animator.SetFloat("AbsoluteSpeed", inputDirection.magnitude);
             _animator.SetFloat("Horizontal", _lastDirection.x);
             _animator.SetFloat("Vertical", _lastDirection.y);
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+        }
+
+        public void OnDropAll(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                ScrapTrail.DropAll();
         }
     }
 }
