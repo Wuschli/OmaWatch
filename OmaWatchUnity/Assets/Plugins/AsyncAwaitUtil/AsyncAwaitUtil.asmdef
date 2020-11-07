@@ -1,0 +1,15 @@
+{
+    "name": "AsyncAwaitUtil",
+    "references": [
+        "GUID:d868b531ffbdd6f41808255dec387ebd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
