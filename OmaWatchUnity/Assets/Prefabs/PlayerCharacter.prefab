@@ -49,6 +49,7 @@ MonoBehaviour:
   TrailSpacing: 32
   TrailStartSpacing: 64
   ElementPrefab: {fileID: 8041829453433368005, guid: 9da24b529b57e804fbce78fe2f7e75b4, type: 3}
+  DroppedPrefab: {fileID: 3235168042447702146, guid: d93726d3234e4be4e980136d1700112b, type: 3}
 --- !u!120 &8572736832896887897
 LineRenderer:
   m_ObjectHideFlags: 0

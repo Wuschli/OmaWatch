@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ namespace Assets.Scripts.OmaWatch
         public int MaxTrailLength = 512;
         public int TrailSpacing = 16;
         public int TrailStartSpacing = 64;
+
         public TrailElementRenderer ElementPrefab;
+        public ScrapPiece DroppedPrefab;
 
         private readonly List<Vector3> _trail = new List<Vector3>();
         private LineRenderer _lineRenderer;
@@ -26,6 +29,21 @@ namespace Assets.Scripts.OmaWatch
             newElement.Config = config;
             return true;
         }
+
+        public ScrapPieceConfig TakeScrap()
+        {
+            var child = transform.GetChild(0).gameObject;
+            var result = child.GetComponent<TrailElementRenderer>().Config;
+            Destroy(child);
+            return result;
+        }
+
+        public void DropAll()
+        {
+            foreach (var child in GetComponentsInChildren<TrailElementRenderer>())
+                Drop(child);
+        }
+
 
         protected void OnEnable()
         {
@@ -58,12 +76,12 @@ namespace Assets.Scripts.OmaWatch
             _lineRenderer.SetPositions(_trail.ToArray());
         }
 
-        public ScrapPieceConfig TakeScrap()
+        protected virtual void Drop(TrailElementRenderer element)
         {
-            var child = transform.GetChild(0).gameObject;
-            var result = child.GetComponent<TrailElementRenderer>().Config;
-            Destroy(child);
-            return result;
+            var config = element.Config;
+            var position = element.transform.position;
+            Instantiate(DroppedPrefab, position, Quaternion.identity).Config = config;
+            Destroy(element.gameObject);
         }
     }
 }
