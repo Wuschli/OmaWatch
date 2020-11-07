@@ -8,10 +8,12 @@ namespace Assets.Scripts.OmaWatch
 {
     public class PlayerController : MonoBehaviour, DefaultInputActions.IPlayerActions
     {
-        public float Speed = 3f;
+        public AnimationCurve Speed;
         public Vector2 StartRotation = Vector2.down;
         public ScrapTrail ScrapTrail;
         public Transform lookTarget;
+
+        public float CurrentSpeed;
 
         private DefaultInputActions _defaultInput;
         private Animator _animator;
@@ -50,7 +52,9 @@ namespace Assets.Scripts.OmaWatch
             var inputDirection = _defaultInput.Player.Move.ReadValue<Vector2>();
             if (inputDirection.sqrMagnitude > 1)
                 inputDirection.Normalize();
-            var translation = inputDirection * Speed * Time.deltaTime;
+            var speed = Speed.Evaluate(ScrapTrail.ScrapCount);
+            CurrentSpeed = speed;
+            var translation = inputDirection * speed * Time.deltaTime;
             translation *= new Vector2(1f, 0.5f);
             transform.Translate(translation.ToVector3());
             if (inputDirection.sqrMagnitude > .01f)
@@ -60,9 +64,9 @@ namespace Assets.Scripts.OmaWatch
             _animator.SetFloat("Vertical", _lastDirection.y);
 
             var look = _defaultInput.Player.Look.ReadValue<Vector2>();
-            if(look.sqrMagnitude > 1)
+            if (look.sqrMagnitude > 1)
                 look.Normalize();
-            
+
             lookTarget.localPosition = new Vector3(look.x * 2.9f, look.y * 1.9f);
         }
 
@@ -78,7 +82,6 @@ namespace Assets.Scripts.OmaWatch
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            
         }
     }
 }

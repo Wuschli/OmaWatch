@@ -19,11 +19,12 @@ namespace Assets.Scripts.OmaWatch
 
         private readonly List<Vector3> _trail = new List<Vector3>();
         private LineRenderer _lineRenderer;
-        public bool HasScrap => transform.childCount > 0;
+        public bool HasScrap => ScrapCount > 0;
+        public int ScrapCount => transform.childCount;
 
         public bool TryAddElement(ScrapPieceConfig config)
         {
-            if (transform.childCount >= MaxElementCount)
+            if (ScrapCount >= MaxElementCount)
                 return false;
             var newElement = Instantiate(ElementPrefab, transform, false);
             newElement.Config = config;
