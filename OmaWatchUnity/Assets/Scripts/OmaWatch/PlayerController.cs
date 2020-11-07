@@ -44,6 +44,9 @@ namespace Assets.Scripts.OmaWatch
 
         private void Update()
         {
+            if (Time.timeScale == 0)
+                return;
+
             var inputDirection = _defaultInput.Player.Move.ReadValue<Vector2>();
             if (inputDirection.sqrMagnitude > 1)
                 inputDirection.Normalize();
