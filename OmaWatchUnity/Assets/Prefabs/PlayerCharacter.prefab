@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxElementCount: 1
-  MaxTrailLength: 512
-  TrailSpacing: 16
+  MaxTrailLength: 96
+  TrailSpacing: 32
   TrailStartSpacing: 64
   ElementPrefab: {fileID: 8041829453433368005, guid: 9da24b529b57e804fbce78fe2f7e75b4, type: 3}
 --- !u!120 &8572736832896887897

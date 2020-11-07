@@ -16,6 +16,7 @@ namespace Assets.Scripts.OmaWatch
 
         private readonly List<Vector3> _trail = new List<Vector3>();
         private LineRenderer _lineRenderer;
+        public bool HasScrap => transform.childCount > 0;
 
         public bool TryAddElement(ScrapPieceConfig config)
         {
@@ -36,7 +37,7 @@ namespace Assets.Scripts.OmaWatch
             while (_trail.Count >= MaxTrailLength)
                 _trail.RemoveAt(_trail.Count - 1);
 
-            if (_trail.Any() && _trail.First() == transform.position) 
+            if (_trail.Any() && _trail.First() == transform.position)
                 return;
 
             _trail.Insert(0, transform.position);
@@ -55,6 +56,14 @@ namespace Assets.Scripts.OmaWatch
 
             _lineRenderer.positionCount = _trail.Count;
             _lineRenderer.SetPositions(_trail.ToArray());
+        }
+
+        public ScrapPieceConfig TakeScrap()
+        {
+            var child = transform.GetChild(0).gameObject;
+            var result = child.GetComponent<TrailElementRenderer>().Config;
+            Destroy(child);
+            return result;
         }
     }
 }
