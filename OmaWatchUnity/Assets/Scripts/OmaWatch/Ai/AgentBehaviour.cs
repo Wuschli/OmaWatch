@@ -49,8 +49,13 @@ namespace Assets.Scripts.OmaWatch.Ai
             CurrentTask?.Cancel();
 
             CurrentTask = task;
-            await task.Run(this);
-            CurrentTask = null;
+
+            Debug.Log($"[{Time.frameCount}] START {task.GetType().Name}");
+            var result = await task.Run(this);
+            Debug.Log($"[{Time.frameCount}] COMPLETE {task.GetType().Name} ({result})");
+
+            if (CurrentTask == task)
+                CurrentTask = null;
         }
 
         private void OnApplicationQuit()
