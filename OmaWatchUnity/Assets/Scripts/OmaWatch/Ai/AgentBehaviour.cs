@@ -11,10 +11,20 @@ namespace Assets.Scripts.OmaWatch.Ai
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentBehaviour : MonoBehaviour
     {
+        public enum AgentState
+        {
+            Idle,
+            Chase,
+            Grab,
+            Exhausted
+        }
+
         public AbstractWorldTask defaultTask;
+        public SpriteRenderer chaseIndicator;
 
         private readonly Queue<ITask> _taskQueue = new Queue<ITask>();
         public ITask CurrentTask { get; private set; }
+        public AgentState CurrentState { get; private set; } = AgentState.Idle;
 
         public void Awake()
         {
@@ -26,9 +36,16 @@ namespace Assets.Scripts.OmaWatch.Ai
         public void Update()
         {
             if (CurrentTask != null)
+            {
+                CurrentTask.Update();
                 return;
+            }
+
             if (_taskQueue.Count > 0)
+            {
                 RunTask(_taskQueue.Dequeue());
+                return;
+            }
 
             RunTask(defaultTask);
         }
@@ -37,6 +54,28 @@ namespace Assets.Scripts.OmaWatch.Ai
         {
             _taskQueue.Clear();
             RunTask(task);
+        }
+
+        public void SetState(AgentState state)
+        {
+            if(CurrentState == state)
+                return;
+
+            switch (CurrentState)
+            {
+                case AgentState.Chase:
+                    chaseIndicator.enabled = false;
+                    break;
+            }
+
+            CurrentState = state;
+
+            switch (CurrentState)
+            {
+                case AgentState.Chase:
+                    chaseIndicator.enabled = true;
+                    break;
+            }
         }
 
         public void EnqueueTask(ITask task)
@@ -49,6 +88,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             CurrentTask?.Cancel();
 
             CurrentTask = task;
+            SetState(task.State);
 
             Debug.Log($"[{Time.frameCount}] START {task.GetType().Name}");
             var result = await task.Run(this);

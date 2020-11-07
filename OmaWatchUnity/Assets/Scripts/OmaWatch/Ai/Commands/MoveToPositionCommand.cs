@@ -24,6 +24,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
 
             nav.SetDestination(_position);
             nav.enabled = true;
+            nav.isStopped = false;
 
             while (nav.pathPending && !nav.hasPath)
             {

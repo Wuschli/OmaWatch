@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.OmaWatch.Ai.Tasks;
+using Assets.Scripts.OmaWatch.Player;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai
@@ -8,13 +10,11 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
-        public Transform target;
+        public SuspiciousBehaviour target;
 
-        [Range(1, 5)] public float chaseDistance = 1;
-
-        [Range(5, 15)] public float chaseCooldown = 5;
-
-        private float _currentCooldown;
+        public float chaseDistance = 1;
+        public float chaseTime = 5;
+        public float restTime = 1;
 
         public void Awake()
         {
@@ -23,22 +23,19 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public void Update()
         {
-            if (_agent.CurrentTask is ChaseTask || _agent.CurrentTask is GrabTask)
+            if (_agent.CurrentState != AgentBehaviour.AgentState.Idle)
                 return;
 
-            if (_currentCooldown > 0)
-            {
-                _currentCooldown -= Time.deltaTime;
+            if (!target.IsSuspicious)
                 return;
-            }
 
-            var dist = Vector3.Distance(transform.position, target.position);
+            var dist = Vector3.Distance(transform.position, target.transform.position);
             if (dist > chaseDistance)
                 return;
 
             Debug.Log("starting chase");
-            _agent.SetTask(new ChaseTask(target, chaseCooldown));
-            _currentCooldown = chaseCooldown;
+            _agent.SetTask(new ChaseTask(target, chaseTime));
+            _agent.EnqueueTask(new ExhaustedTask(restTime));
         }
     }
 }

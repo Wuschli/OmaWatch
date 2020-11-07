@@ -16,6 +16,9 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 
         protected override async Task<bool> PickUpAsync(PlayerController player)
         {
+            if (!player.enabled)
+                return false;
+
             await Task.Yield();
             Debug.Log("SCRAP!");
             if (player.ScrapTrail != null)

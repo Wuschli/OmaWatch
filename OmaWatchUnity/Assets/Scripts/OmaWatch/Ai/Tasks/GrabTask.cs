@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
+using Assets.Scripts.OmaWatch.Player;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
@@ -19,12 +20,17 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             _token = new CancellationTokenSource();
         }
 
+        public AgentBehaviour.AgentState State => AgentBehaviour.AgentState.Grab;
+
         public async Task<TaskResult> Run(AgentBehaviour agent)
         {
             try
             {
-                SetPlayerEnabled(false);
+                SetPlayerGrabbed(false);
+                _subject.GetComponentInChildren<ScrapTrail>()?.DropAll();
+
                 _subject.transform.parent = agent.transform;    //TODO: specify grab transform
+                _subject.transform.localPosition = Vector3.zero;
 
                 await agent.ExecuteCommand(new MoveToPositionCommand(_releaseTarget.position, _token.Token));
                 return TaskResult.Success;
@@ -35,6 +41,10 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             }
         }
 
+        public void Update()
+        {
+        }
+
         public void Cancel()
         {
             _token.Cancel();
@@ -42,15 +52,24 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         public void OnCompleted(TaskResult result)
         {
-            SetPlayerEnabled(true);
+            SetPlayerGrabbed(true);
             _subject.transform.parent = null;
         }
 
-        private void SetPlayerEnabled(bool enabled)
+        private void SetPlayerGrabbed(bool enabled)
         {
             var player = _subject.GetComponent<PlayerController>();
             if (player != null)
                 player.enabled = enabled;
+
+            var nm = _subject.GetComponent<NavMeshConstrainer>();
+            if (nm != null)
+                nm.enabled = enabled;
+
+            var susp = _subject.GetComponent<SuspiciousBehaviour>();
+            if (susp)
+                susp.PlayerGrabbed = !enabled;
+
         }
     }
 }

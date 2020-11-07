@@ -9,32 +9,28 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
     public class MoveToMovingPositionCommand : AbstractCommand
     {
         private readonly Transform _target;
-        private readonly float _timeout;
         private readonly CancellationToken _token;
 
-        public MoveToMovingPositionCommand(Transform target, float timeout, CancellationToken token)
+        public MoveToMovingPositionCommand(Transform target, CancellationToken token)
         {
             _target = target;
-            _timeout = timeout;
             _token = token;
         }
 
         public override async Task<CommandResult> Execute(AgentBehaviour agent)
         {
-            var time = Stopwatch.StartNew();
-
             var nav = agent.GetComponent<NavMeshAgent>();
             if (nav == null)
                 return CommandResult.Failed;
 
             await SetDestination(nav);
 
-            while (nav.remainingDistance > nav.stoppingDistance && time.Elapsed.Seconds <= _timeout)
+            while (nav.remainingDistance > nav.stoppingDistance)
             {
                 await Task.Yield();
                 _token.ThrowIfCancellationRequested();
 
-                if (Vector3.Distance(nav.destination, _target.position) > 1.0f)
+                if (Vector3.Distance(nav.destination, _target.position) > 0.5f)
                     await SetDestination(nav);
             }
 
@@ -45,6 +41,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
         {
             nav.SetDestination(_target.position);
             nav.enabled = true;
+            nav.isStopped = false;
 
             while (nav.pathPending && !nav.hasPath)
             {

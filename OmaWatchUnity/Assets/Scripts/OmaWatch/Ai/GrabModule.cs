@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
+using Assets.Scripts.OmaWatch.Player;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai
@@ -9,13 +10,11 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
-        public GameObject grabTarget;
+        public SuspiciousBehaviour grabTarget;
         public Transform releasePosition;
 
         public float grabDistance = 0.25f;
-        public float grabCooldown = 5;
-        private float _currentCooldown = 0;
-
+        
         private void Awake()
         {
             _agent = GetComponent<AgentBehaviour>();
@@ -23,21 +22,17 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         private void Update()
         {
-            if (_agent.CurrentTask is GrabTask)
+            if (_agent.CurrentState != AgentBehaviour.AgentState.Chase)
                 return;
 
-            if (_currentCooldown > 0)
-            {
-                _currentCooldown -= Time.deltaTime;
+            if(!grabTarget.IsSuspicious)
                 return;
-            }
 
             var distance = Vector3.Distance(transform.position, grabTarget.transform.position);
             if (distance > grabDistance)
                 return;
 
-            _currentCooldown = grabCooldown;
-            _agent.SetTask(new GrabTask(grabTarget, releasePosition));
+            _agent.SetTask(new GrabTask(grabTarget.gameObject, releasePosition));
         }
     }
 }
