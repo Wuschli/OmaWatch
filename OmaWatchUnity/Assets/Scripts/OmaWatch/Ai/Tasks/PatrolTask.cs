@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {
-    public class PatrolTask : AbstractTask
+    public class PatrolTask : AbstractWorldTask
     {
         private CancellationTokenSource _cancellationTokenSource;
         public Transform[] PatrolPoints; 

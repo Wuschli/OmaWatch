@@ -2,6 +2,7 @@
 using Assets.Scripts.OmaWatch.Input;
 using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.OmaWatch
 {
@@ -17,6 +18,13 @@ namespace Assets.Scripts.OmaWatch
         private void Awake()
         {
             _defaultInput = new DefaultInputActions();
+
+            var nav = GetComponent<NavMeshAgent>();
+            if (nav != null)
+            {
+                nav.updateRotation = false;
+                nav.updateUpAxis = false;
+            }
         }
 
         private void OnEnable()
