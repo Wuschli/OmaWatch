@@ -23,7 +23,7 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public void Update()
         {
-            if(_agent.CurrentTask is ChaseTask)
+            if (_agent.CurrentTask is ChaseTask || _agent.CurrentTask is GrabTask)
                 return;
 
             if (_currentCooldown > 0)

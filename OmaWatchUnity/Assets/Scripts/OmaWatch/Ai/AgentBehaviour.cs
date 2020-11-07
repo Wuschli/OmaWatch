@@ -53,6 +53,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             Debug.Log($"[{Time.frameCount}] START {task.GetType().Name}");
             var result = await task.Run(this);
             Debug.Log($"[{Time.frameCount}] COMPLETE {task.GetType().Name} ({result})");
+            task.OnCompleted(result);
 
             if (CurrentTask == task)
                 CurrentTask = null;
