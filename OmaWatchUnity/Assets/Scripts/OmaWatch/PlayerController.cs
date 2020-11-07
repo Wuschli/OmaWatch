@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.OmaWatch.Input;
+﻿using Assets.Scripts.OmaWatch.Input;
 using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace Assets.Scripts.OmaWatch
     {
         public float Speed = 3f;
         public Vector2 StartRotation = Vector2.down;
+        public ScrapTrail ScrapTrail;
 
         private DefaultInputActions _defaultInput;
         private Animator _animator;
