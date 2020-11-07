@@ -11,11 +11,10 @@ namespace Assets.Scripts.OmaWatch.Ai
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentBehaviour : MonoBehaviour
     {
-        public AbstractTask defaultTask;
+        public AbstractWorldTask defaultTask;
 
-
-        private readonly Queue<AbstractTask> _taskQueue = new Queue<AbstractTask>();
-        private AbstractTask _currentTask;
+        private readonly Queue<ITask> _taskQueue = new Queue<ITask>();
+        public ITask CurrentTask { get; private set; }
 
         public void Awake()
         {
@@ -26,34 +25,48 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public void Update()
         {
-            if(_currentTask != null)
+            if (CurrentTask != null)
                 return;
-            if(_taskQueue.Count > 0)
+            if (_taskQueue.Count > 0)
                 RunTask(_taskQueue.Dequeue());
 
             RunTask(defaultTask);
         }
 
-        private async void RunTask(AbstractTask task)
+        public void SetTask(ITask task)
         {
-            if(_currentTask != null)
-                _currentTask.Cancel();
+            _taskQueue.Clear();
+            RunTask(task);
+        }
 
-            _currentTask = task;
-            await task.Run(this);
-            _currentTask = null;
+        public void EnqueueTask(ITask task)
+        {
+            _taskQueue.Enqueue(task);
+        }
+
+        private async void RunTask(ITask task)
+        {
+            CurrentTask?.Cancel();
+
+            CurrentTask = task;
+
+            Debug.Log($"[{Time.frameCount}] START {task.GetType().Name}");
+            var result = await task.Run(this);
+            Debug.Log($"[{Time.frameCount}] COMPLETE {task.GetType().Name} ({result})");
+            task.OnCompleted(result);
+
+            if (CurrentTask == task)
+                CurrentTask = null;
         }
 
         private void OnApplicationQuit()
         {
-            if(_currentTask != null)
-                _currentTask.Cancel();
+            CurrentTask?.Cancel();
         }
 
         public Task<AbstractCommand.CommandResult> ExecuteCommand(AbstractCommand command)
         {
             return command.Execute(this);
         }
-
     }
 }

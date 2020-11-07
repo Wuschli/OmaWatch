@@ -3,16 +3,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {
-    public abstract class AbstractTask : MonoBehaviour
+    public abstract class AbstractWorldTask : MonoBehaviour, ITask
     {
-        public enum TaskResult
-        {
-            Success,
-            Cancelled,
-            Failed
-        }
-        
         public abstract Task<TaskResult> Run(AgentBehaviour agent);
+
         public abstract void Cancel();
+
+        public virtual void OnCompleted(TaskResult result)
+        {
+        }
     }
 }
