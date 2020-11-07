@@ -11,6 +11,7 @@ namespace Assets.Scripts.OmaWatch
         public float Speed = 3f;
         public Vector2 StartRotation = Vector2.down;
         public ScrapTrail ScrapTrail;
+        public Transform lookTarget;
 
         private DefaultInputActions _defaultInput;
         private Animator _animator;
@@ -54,6 +55,12 @@ namespace Assets.Scripts.OmaWatch
             _animator.SetFloat("AbsoluteSpeed", inputDirection.magnitude);
             _animator.SetFloat("Horizontal", _lastDirection.x);
             _animator.SetFloat("Vertical", _lastDirection.y);
+
+            var look = _defaultInput.Player.Look.ReadValue<Vector2>();
+            if(look.sqrMagnitude > 1)
+                look.Normalize();
+            
+            lookTarget.localPosition = new Vector3(look.x * 2.9f, look.y * 1.9f);
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -64,6 +71,11 @@ namespace Assets.Scripts.OmaWatch
         {
             if (context.performed)
                 ScrapTrail.DropAll();
+        }
+
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            
         }
     }
 }

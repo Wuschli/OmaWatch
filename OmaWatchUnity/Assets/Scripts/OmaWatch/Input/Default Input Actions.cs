@@ -35,6 +35,14 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""cce34d89-4067-4250-a4c4-9195973c49f1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -180,6 +188,17 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""action"": ""DropAll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94508bfd-ecf9-4248-bf60-9a8464df0cd6"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -234,6 +253,7 @@ namespace Assets.Scripts.OmaWatch.Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_DropAll = m_Player.FindAction("DropAll", throwIfNotFound: true);
+            m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -288,12 +308,14 @@ namespace Assets.Scripts.OmaWatch.Input
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_DropAll;
+        private readonly InputAction m_Player_Look;
         public struct PlayerActions
         {
             private @DefaultInputActions m_Wrapper;
             public PlayerActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @DropAll => m_Wrapper.m_Player_DropAll;
+            public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -309,6 +331,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
+                    @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -319,6 +344,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started += instance.OnDropAll;
                     @DropAll.performed += instance.OnDropAll;
                     @DropAll.canceled += instance.OnDropAll;
+                    @Look.started += instance.OnLook;
+                    @Look.performed += instance.OnLook;
+                    @Look.canceled += instance.OnLook;
                 }
             }
         }
@@ -369,6 +397,7 @@ namespace Assets.Scripts.OmaWatch.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnDropAll(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
