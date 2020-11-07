@@ -10,6 +10,7 @@ namespace Assets.Scripts.OmaWatch.Player
         private ScrapTrail _trail;
 
         public bool IsSuspicious { get; private set; }
+        public bool PlayerGrabbed { get; set; }
 
         private void Awake()
         {
@@ -18,6 +19,12 @@ namespace Assets.Scripts.OmaWatch.Player
 
         private void Update()
         {
+            if (PlayerGrabbed)
+            {
+                SetSuspicious(false);
+                return;
+            }
+
             if (_trail != null && _trail.HasScrap)
             {
                 SetSuspicious(true);

@@ -30,7 +30,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
                 await Task.Yield();
                 _token.ThrowIfCancellationRequested();
 
-                if (Vector3.Distance(nav.destination, _target.position) > 1.0f)
+                if (Vector3.Distance(nav.destination, _target.position) > 0.5f)
                     await SetDestination(nav);
             }
 
