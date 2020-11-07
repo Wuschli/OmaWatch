@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
+using Assets.Scripts.OmaWatch.Player;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai
@@ -9,7 +10,7 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
-        public GameObject grabTarget;
+        public SuspiciousBehaviour grabTarget;
         public Transform releasePosition;
 
         public float grabDistance = 0.25f;
@@ -32,12 +33,15 @@ namespace Assets.Scripts.OmaWatch.Ai
                 return;
             }
 
+            if(!grabTarget.IsSuspicious)
+                return;
+
             var distance = Vector3.Distance(transform.position, grabTarget.transform.position);
             if (distance > grabDistance)
                 return;
 
             _currentCooldown = grabCooldown;
-            _agent.SetTask(new GrabTask(grabTarget, releasePosition));
+            _agent.SetTask(new GrabTask(grabTarget.gameObject, releasePosition));
         }
     }
 }

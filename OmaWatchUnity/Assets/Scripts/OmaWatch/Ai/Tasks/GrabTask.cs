@@ -25,6 +25,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             {
                 SetPlayerEnabled(false);
                 _subject.transform.parent = agent.transform;    //TODO: specify grab transform
+                _subject.transform.localPosition = Vector3.zero;
 
                 await agent.ExecuteCommand(new MoveToPositionCommand(_releaseTarget.position, _token.Token));
                 return TaskResult.Success;
@@ -51,6 +52,10 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             var player = _subject.GetComponent<PlayerController>();
             if (player != null)
                 player.enabled = enabled;
+
+            var nm = _subject.GetComponent<NavMeshConstrainer>();
+            if (nm != null)
+                nm.enabled = enabled;
         }
     }
 }
