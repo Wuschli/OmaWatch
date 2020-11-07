@@ -24,7 +24,12 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
 
             nav.SetDestination(_position);
             nav.enabled = true;
-            await Task.Yield();
+
+            while (nav.pathPending && !nav.hasPath)
+            {
+                await Task.Yield();
+                _token.ThrowIfCancellationRequested();
+            }
 
             while (nav.remainingDistance > nav.stoppingDistance)
             {
