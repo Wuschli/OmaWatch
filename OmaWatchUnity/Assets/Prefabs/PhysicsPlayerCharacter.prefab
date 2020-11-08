@@ -341,14 +341,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6851819853801920041}
   - component: {fileID: 6851819853801920040}
-  - component: {fileID: 6851819853801920055}
+  - component: {fileID: 746002916660594507}
   - component: {fileID: 1161096825692041321}
   - component: {fileID: 9171556032682681384}
   - component: {fileID: 2389256933628465481}
-  - component: {fileID: -7842091726746766734}
   - component: {fileID: 1562404285325923553}
   m_Layer: 0
-  m_Name: PlayerCharacter
+  m_Name: PhysicsPlayerCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,7 +420,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &6851819853801920055
+--- !u!114 &746002916660594507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,7 +429,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6851819853801920054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1eff69c78eebba42ace7d7a69d19d36, type: 3}
+  m_Script: {fileID: 11500000, guid: 64e874d237f846f9a2c26dfa1d0f714f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ScrapTrail: {fileID: 3303441761039546888}
@@ -459,8 +458,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Animator: {fileID: 0}
+  Animator: {fileID: 1161096825692041321}
   StartRotation: {x: 0, y: -1}
+  Rigidbody: {fileID: 2389256933628465481}
 --- !u!95 &1161096825692041321
 Animator:
   serializedVersion: 3
@@ -504,12 +504,12 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6851819853801920054}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -517,18 +517,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-7842091726746766734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6851819853801920054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 744ae5a75a424a20b4d273b73bb86219, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1562404285325923553
 MonoBehaviour:
   m_ObjectHideFlags: 0

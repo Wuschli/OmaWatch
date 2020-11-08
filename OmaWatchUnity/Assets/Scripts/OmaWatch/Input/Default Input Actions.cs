@@ -25,7 +25,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""76728ca6-13ce-465f-89fa-ee273c324e1c"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """"
                 },
                 {
@@ -41,7 +41,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""cce34d89-4067-4250-a4c4-9195973c49f1"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """"
                 }
             ],

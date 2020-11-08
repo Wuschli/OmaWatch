@@ -14,7 +14,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             GetComponent<SpriteRenderer>().sprite = Config.Sprite;
         }
 
-        protected override async Task<bool> PickUpAsync(PlayerController player)
+        protected override async Task<bool> PickUpAsync(AbstractPlayerController player)
         {
             if (!player.enabled)
                 return false;
