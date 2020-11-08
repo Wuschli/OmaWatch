@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.OmaWatch.Input;
+﻿using Assets.Scripts.OmaWatch.Ai;
+using Assets.Scripts.OmaWatch.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -53,6 +54,7 @@ namespace Assets.Scripts.OmaWatch
             if (Animator == null)
                 Animator = GetComponent<Animator>();
             _lastDirection = StartRotation;
+            AICoordinator.Instance.Player = this;
         }
 
         protected virtual void OnDisable()

@@ -1,8 +1,8 @@
 ﻿using System;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
 using Assets.Scripts.OmaWatch.Player;
-using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
@@ -11,16 +11,16 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
-        public SuspiciousBehaviour target;
+        private SuspiciousBehaviour Target => AICoordinator.Instance.SuspiciousBehaviour;
 
-        public float chaseDistance = 1;
-        public float chaseTime = 5;
-        public float restTime = 1;
-        public float agggroTime = 1;
+        [FormerlySerializedAs("chaseDistance")] public float ChaseDistance = 1;
+        [FormerlySerializedAs("chaseTime")] public float ChaseTime = 5;
+        [FormerlySerializedAs("restTime")] public float RestTime = 1;
+        [FormerlySerializedAs("agggroTime")] public float AggroTime = 1;
 
         private float _currentAggro = 0;
 
-        public float Aggro => _currentAggro / agggroTime;
+        public float Aggro => _currentAggro / AggroTime;
 
         public void Awake()
         {
@@ -32,26 +32,26 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_agent.CurrentState != AgentBehaviour.AgentState.Idle)
                 return;
 
-            if (!target.IsSuspicious)
+            if (!Target.IsSuspicious)
                 return;
 
-            var dist = Vector3.Distance(transform.position, target.transform.position);
-            if (dist > chaseDistance)
+            var dist = Vector3.Distance(transform.position, Target.transform.position);
+            if (dist > ChaseDistance)
             {
                 _currentAggro = Math.Max(_currentAggro - Time.deltaTime, 0);
                 return;
             }
 
-            _currentAggro = Math.Min(_currentAggro + Time.deltaTime, agggroTime);
+            _currentAggro = Math.Min(_currentAggro + Time.deltaTime, AggroTime);
 
-            if (_currentAggro < agggroTime)
+            if (_currentAggro < AggroTime)
                 return;
 
 
-            Debug.DrawLine(transform.position, target.transform.position, Color.red, 10);
+            Debug.DrawLine(transform.position, Target.transform.position, Color.red, 10);
             Debug.Log("starting chase");
-            _agent.SetTask(new ChaseTask(target, chaseTime));
-            _agent.EnqueueTask(new ExhaustedTask(restTime));
+            _agent.SetTask(new ChaseTask(Target, ChaseTime));
+            _agent.EnqueueTask(new ExhaustedTask(RestTime));
             _currentAggro = 0;
         }
     }

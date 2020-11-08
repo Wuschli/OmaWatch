@@ -1,7 +1,7 @@
-﻿using System;
-using Assets.Scripts.OmaWatch.Ai.Tasks;
+﻿using Assets.Scripts.OmaWatch.Ai.Tasks;
 using Assets.Scripts.OmaWatch.Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
@@ -10,11 +10,15 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
-        public SuspiciousBehaviour grabTarget;
-        public Transform releasePosition;
 
-        public float grabDistance = 0.25f;
-        
+        [FormerlySerializedAs("releasePosition")]
+        public Transform ReleasePosition;
+
+        [FormerlySerializedAs("grabDistance")]
+        public float GrabDistance = 0.25f;
+
+        private SuspiciousBehaviour GrabTarget => AICoordinator.Instance.SuspiciousBehaviour;
+
         private void Awake()
         {
             _agent = GetComponent<AgentBehaviour>();
@@ -25,14 +29,14 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_agent.CurrentState != AgentBehaviour.AgentState.Chase)
                 return;
 
-            if(!grabTarget.IsSuspicious)
+            if (!GrabTarget.IsSuspicious)
                 return;
 
-            var distance = Vector3.Distance(transform.position, grabTarget.transform.position);
-            if (distance > grabDistance)
+            var distance = Vector3.Distance(transform.position, GrabTarget.transform.position);
+            if (distance > GrabDistance)
                 return;
 
-            _agent.SetTask(new GrabTask(grabTarget.gameObject, releasePosition));
+            _agent.SetTask(new GrabTask(GrabTarget.gameObject, ReleasePosition));
         }
     }
 }
