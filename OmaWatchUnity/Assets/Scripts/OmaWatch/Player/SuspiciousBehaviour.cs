@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.OmaWatch.Player
 {
     public class SuspiciousBehaviour : MonoBehaviour
     {
-        public Tilemap safeTilemap;
+        [FormerlySerializedAs("safeTilemap")]
+        public Tilemap SafeTilemap;
         private ScrapTrail _trail;
 
         public bool IsSuspicious { get; private set; }
@@ -32,10 +34,10 @@ namespace Assets.Scripts.OmaWatch.Player
             }
 
             var position = transform.position;
-            var local = safeTilemap.WorldToCell(position);
+            var local = SafeTilemap.WorldToCell(position);
             local.z = 0;
 
-            var tile = safeTilemap.GetTile(local);
+            var tile = SafeTilemap.GetTile(local);
             if (tile == null)
             {
                 SetSuspicious(true);

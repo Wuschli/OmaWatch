@@ -14,7 +14,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             _slots = GetComponentsInChildren<RocketConstructionSiteSlot>().ToArray();
         }
 
-        protected override async Task InteractAsync(PlayerController player)
+        protected override async Task InteractAsync(AbstractPlayerController player)
         {
             while (CanAddScrap && player.ScrapTrail.HasScrap)
             {

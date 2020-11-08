@@ -19,7 +19,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var playerController = other.gameObject.GetComponent<PlayerController>();
+            var playerController = other.gameObject.GetComponent<AbstractPlayerController>();
             if (playerController == null)
                 return;
             InteractAsync(playerController);

@@ -58,7 +58,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         private void SetPlayerGrabbed(bool enabled)
         {
-            var player = _subject.GetComponent<PlayerController>();
+            var player = _subject.GetComponent<AbstractPlayerController>();
             if (player != null)
                 player.enabled = enabled;
 

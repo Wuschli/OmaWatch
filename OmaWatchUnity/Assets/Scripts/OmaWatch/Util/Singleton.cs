@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace Assets.Scripts.OmaWatch.Util
 {
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
