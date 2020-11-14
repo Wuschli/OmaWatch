@@ -102,9 +102,9 @@ namespace Assets.Scripts.UI
             await LoadScene("MainMenu");
         }
 
-        private async Task OnExitMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private Task OnExitMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            //await UnloadScene("MainMenu");
+            return Task.CompletedTask;
         }
 
         private async Task OnEntryInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -112,9 +112,9 @@ namespace Assets.Scripts.UI
             await LoadScene("Test");
         }
 
-        private async Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            //await UnloadScene("Test");
+            return Task.CompletedTask;
         }
 
         private async Task OnEntryPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -136,9 +136,9 @@ namespace Assets.Scripts.UI
             await LoadScene("GameOver");
         }
 
-        private async Task OnExitGameOverAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private Task OnExitGameOverAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            //await UnloadScene("GameOver");
+            return Task.CompletedTask;
         }
 
         public void OnPoint(InputAction.CallbackContext context)
