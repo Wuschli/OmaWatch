@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8528839631570100324}
   - component: {fileID: 8528839631570100325}
   - component: {fileID: 7527102924318090812}
+  - component: {fileID: 6726861659325303044}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -219,11 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f12922f15f86ff4ba66572488efb3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  chaseDistance: 3
-  chaseTime: 5
-  restTime: 1
-  agggroTime: 1
+  ChaseDistance: 3
+  ChaseTime: 5
+  RestTime: 1
+  AggroTime: 1
 --- !u!114 &8528839631570100325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,9 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4574451750a0c514d9ee77f394ae9da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabTarget: {fileID: 0}
-  releasePosition: {fileID: 0}
-  grabDistance: 1
+  ReleasePosition: {fileID: 0}
+  GrabDistance: 1
 --- !u!114 &7527102924318090812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +252,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensor: {fileID: 8528839631570100324}
   renderer: {fileID: 6711957094706075428}
+--- !u!114 &6726861659325303044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8528839631570100351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87bc48c9f174189b97e740e89d3811d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 1
+  DebugTargetPos: {fileID: 0}
+  TileIndicator: {fileID: 0}
 --- !u!1 &8528839633034543837
 GameObject:
   m_ObjectHideFlags: 0

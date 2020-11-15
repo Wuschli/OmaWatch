@@ -30,7 +30,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         {
             try
             {
-                await agent.ExecuteCommand(new MoveToMovingPositionCommand(_chaseTarget.transform, _cancellationToken.Token));
+                await agent.ExecuteCommand(new MoveToPositionCommand(_chaseTarget.transform, _cancellationToken.Token));
                 Debug.Log("The chase has completed");
                 return TaskResult.Success;
             }

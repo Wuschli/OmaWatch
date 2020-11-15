@@ -19,7 +19,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
             {
                 foreach (var patrolPoint in PatrolPoints)
                 {
-                    await agent.ExecuteCommand(new MoveToPositionCommand(patrolPoint.position, _cancellationTokenSource.Token));
+                    await agent.ExecuteCommand(new MoveToPositionCommand(patrolPoint, _cancellationTokenSource.Token));
 
                     //TODO: patrol actions
                 }

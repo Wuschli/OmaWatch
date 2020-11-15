@@ -26,14 +26,9 @@ namespace Assets.Scripts.OmaWatch.Ai
         public ITask CurrentTask { get; private set; }
         public AgentState CurrentState { get; private set; } = AgentState.Idle;
 
-        private NavMeshAgent _navMeshAgent;
+        public TileNavMovementController Nav => GetComponent<TileNavMovementController>();
 
-        public void Awake()
-        {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-            _navMeshAgent.updateRotation = false;
-            _navMeshAgent.updateUpAxis = false;
-        }
+        
 
         public void Update()
         {
@@ -67,7 +62,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             {
                 case AgentState.Chase:
                     chaseIndicator.enabled = false;
-                    _navMeshAgent.speed = 1;
+                    Nav.Speed = 1f;
                     break;
             }
 
@@ -77,7 +72,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             {
                 case AgentState.Chase:
                     chaseIndicator.enabled = true;
-                    _navMeshAgent.speed = 1.1f;
+                    Nav.Speed = 1.1f;
                     break;
             }
         }

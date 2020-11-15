@@ -7,38 +7,31 @@ namespace Assets.Scripts.OmaWatch.Ai.Commands
 {
     public class MoveToPositionCommand : AbstractCommand
     {
-        private readonly Vector3 _position;
+        private readonly Transform _target;
         private readonly CancellationToken _token;
 
-        public MoveToPositionCommand(Vector3 position, CancellationToken token)
+        public MoveToPositionCommand(Transform target, CancellationToken token)
         {
-            _position = position;
+            _target = target;
             _token = token;
         }
 
         public override async Task<CommandResult> Execute(AgentBehaviour agent)
         {
-            var nav = agent.GetComponent<NavMeshAgent>();
+            var nav = agent.Nav;
             if (nav == null)
                 return CommandResult.Failed;
 
-            nav.SetDestination(_position);
-            nav.enabled = true;
-            nav.isStopped = false;
-
-            while (nav.pathPending && !nav.hasPath)
+            var result = await nav.MoveToTarget(_target, _token);
+            switch (result)
             {
-                await Task.Yield();
-                _token.ThrowIfCancellationRequested();
+                case TileNavMovementController.MoveResult.Success:
+                    return CommandResult.Success;
+                case TileNavMovementController.MoveResult.Canceled:
+                    return CommandResult.Cancelled;
+                default:
+                    return CommandResult.Failed;
             }
-
-            while (nav.remainingDistance > nav.stoppingDistance)
-            {
-                await Task.Yield();
-                _token.ThrowIfCancellationRequested();
-            }
-
-            return CommandResult.Success;
         }
     }
 }

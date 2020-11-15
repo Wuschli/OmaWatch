@@ -32,7 +32,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
                 _subject.transform.parent = agent.transform;    //TODO: specify grab transform
                 _subject.transform.localPosition = Vector3.zero;
 
-                await agent.ExecuteCommand(new MoveToPositionCommand(_releaseTarget.position, _token.Token));
+                await agent.ExecuteCommand(new MoveToPositionCommand(_releaseTarget, _token.Token));
                 return TaskResult.Success;
             }
             catch (OperationCanceledException)

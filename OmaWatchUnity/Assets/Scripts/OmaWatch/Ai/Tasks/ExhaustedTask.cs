@@ -20,11 +20,9 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         {
             try
             {
-                var nav = agent.GetComponent<NavMeshAgent>();
-                if (nav != null)
-                    nav.isStopped = true;
+                agent.Nav?.Stop();
 
-                await Task.Delay((int)(_exhaustedTime * 1000));
+                await Task.Delay((int) (_exhaustedTime * 1000));
                 return TaskResult.Success;
             }
             catch (OperationCanceledException)
@@ -35,7 +33,6 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         public void Update()
         {
-            
         }
 
         public void Cancel()
@@ -45,7 +42,6 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         public void OnCompleted(TaskResult result)
         {
-            
         }
     }
 }

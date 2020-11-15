@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.World;
 using JetBrains.Annotations;
@@ -14,8 +15,8 @@ namespace Assets.Scripts.OmaWatch.Ai
         public GameObject TileIndicator;
 
         private TaskCompletionSource<MoveResult> _currentOp;
+        private CancellationToken? _currentCancellationToken;
         private readonly Queue<Vector3> _movePositions = new Queue<Vector3>();
-
 
 
         private float _time;
@@ -27,14 +28,17 @@ namespace Assets.Scripts.OmaWatch.Ai
         private void Start()
         {
             if (DebugTargetPos != null)
-                MoveToTarget(DebugTargetPos);
+                MoveToTarget(DebugTargetPos, CancellationToken.None);
         }
 
-        public Task<MoveResult> MoveToTarget(Transform target)
+        public Task<MoveResult> MoveToTarget(Transform target, CancellationToken cancellationToken)
         {
-            _currentOp?.SetResult(MoveResult.Canceled);
+            if(_currentOp != null)
+                CompleteOp(MoveResult.Canceled);
 
             _currentTarget = target;
+            _currentCancellationToken = cancellationToken;
+
             var position = target.position;
             _currentTargetTile = WorldRoot.Instance.GetTilePos(position);
             var path = WorldRoot.Instance.GetPath(transform.position, position);
@@ -51,16 +55,20 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public void Stop()
         {
-            _currentOp?.SetResult(MoveResult.Canceled);
-            _movePositions.Clear();
-            _currentTarget = null;
+            CompleteOp(MoveResult.Canceled);
         }
-
 
         private void Update()
         {
             if (TileIndicator != null)
                 TileIndicator.transform.position = WorldRoot.Instance.ClampToTile(transform.position);
+
+            if (_currentCancellationToken.HasValue && _currentCancellationToken.Value.IsCancellationRequested)
+            {
+                Stop();
+                return;
+            }
+
 
             if (_movePositions.Count == 0)
                 return;
@@ -86,10 +94,21 @@ namespace Assets.Scripts.OmaWatch.Ai
             }
 
             if (_movePositions.Count == 0)
-            {
-                _currentOp?.SetResult(MoveResult.Success);
-                _currentOp = null;
-            }
+                CompleteOp(MoveResult.Success);
+        }
+
+        private void CompleteOp(MoveResult result)
+        {
+            var op = _currentOp;
+
+            _currentOp = null;
+            _currentCancellationToken = null;
+            _currentTarget = null;
+
+            _movePositions.Clear();
+
+
+            op?.SetResult(result);
         }
 
         public enum MoveResult
