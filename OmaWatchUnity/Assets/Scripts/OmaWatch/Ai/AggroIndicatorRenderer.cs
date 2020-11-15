@@ -1,27 +1,30 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
     public class AggroIndicatorRenderer : MonoBehaviour
     {
-        public SensorModule sensor;
-        public SpriteRenderer renderer;
+        [FormerlySerializedAs("sensor")]
+        public SensorModule Sensor;
+
+        [FormerlySerializedAs("renderer")]
+        public SpriteRenderer Renderer;
 
 
         private void Update()
         {
-            if (sensor.Aggro > 0)
+            if (Sensor.Aggro > 0)
             {
-                if (!renderer.enabled)
-                    renderer.enabled = true;
+                if (!Renderer.enabled)
+                    Renderer.enabled = true;
 
-                renderer.color = Color.Lerp(Color.yellow, Color.red, sensor.Aggro);
+                Renderer.color = Color.Lerp(Color.yellow, Color.red, Sensor.Aggro);
             }
             else
             {
-                if (renderer.enabled)
-                    renderer.enabled = false;
+                if (Renderer.enabled)
+                    Renderer.enabled = false;
             }
         }
     }

@@ -13,22 +13,13 @@ namespace UniRx
 
         private static bool AboutToStartScene
         {
-            get
-            {
-                return EditorPrefs.GetBool("AboutToStartScene");
-            }
-            set
-            {
-                EditorPrefs.SetBool("AboutToStartScene", value);
-            }
+            get { return EditorPrefs.GetBool("AboutToStartScene"); }
+            set { EditorPrefs.SetBool("AboutToStartScene", value); }
         }
 
         public static bool IsPlaying
         {
-            get
-            {
-                return _isPlaying;
-            }
+            get { return _isPlaying; }
             set
             {
                 if (_isPlaying != value)
@@ -52,7 +43,7 @@ namespace UniRx
         // InitializeOnLoad ensures that this constructor is called when the Unity Editor is started.
         static ScenePlaybackDetector()
         {
-            EditorApplication.playmodeStateChanged += () =>
+            EditorApplication.playModeStateChanged += change =>
             {
                 // Before scene start:          isPlayingOrWillChangePlaymode = false;  isPlaying = false
                 // Pressed Playback button:     isPlayingOrWillChangePlaymode = true;   isPlaying = false
