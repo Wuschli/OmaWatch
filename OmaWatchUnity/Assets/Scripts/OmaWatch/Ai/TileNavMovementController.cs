@@ -33,7 +33,7 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public Task<MoveResult> MoveToTarget(Transform target, CancellationToken cancellationToken)
         {
-            if(_currentOp != null)
+            if (_currentOp != null)
                 CompleteOp(MoveResult.Canceled);
 
             _currentTarget = target;

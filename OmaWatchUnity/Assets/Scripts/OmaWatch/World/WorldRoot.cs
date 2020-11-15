@@ -62,7 +62,7 @@ namespace Assets.Scripts.OmaWatch.World
 
         public Vector3 ClampToTile(Vector3 pos)
         {
-            return _tileGrid.CellToWorld(GetTilePos(pos));
+            return _tileGrid.GetCellCenterWorld(GetTilePos(pos));
         }
 
         public List<Vector3> GetPath(Vector3 from, Vector3 to)

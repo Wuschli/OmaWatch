@@ -8,7 +8,6 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
-    [RequireComponent(typeof(NavMeshAgent))]
     public class AgentBehaviour : MonoBehaviour
     {
         public enum AgentState
