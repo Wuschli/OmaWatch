@@ -21,6 +21,7 @@ namespace Assets.Scripts.OmaWatch
         private LineRenderer _lineRenderer;
         public bool HasScrap => ScrapCount > 0;
         public int ScrapCount => transform.childCount;
+        public ScrapPieceConfig NextScrapPiece => GetNextScrapPiece();
 
         public bool TryAddElement(ScrapPieceConfig config)
         {
@@ -33,10 +34,30 @@ namespace Assets.Scripts.OmaWatch
 
         public ScrapPieceConfig TakeScrap()
         {
-            var child = transform.GetChild(0).gameObject;
-            var result = child.GetComponent<TrailElementRenderer>().Config;
-            Destroy(child);
+            if (ScrapCount < 1)
+                return null;
+            var result = GetScrapPieceAt(0, out var go);
+            Destroy(go);
             return result;
+        }
+
+        private ScrapPieceConfig GetScrapPieceAt(int index, out GameObject go)
+        {
+            if (index >= ScrapCount)
+            {
+                go = null;
+                return null;
+            }
+
+            go = transform.GetChild(0).gameObject;
+            return go.GetComponent<TrailElementRenderer>().Config;
+        }
+
+        private ScrapPieceConfig GetNextScrapPiece()
+        {
+            if (ScrapCount < 1)
+                return null;
+            return GetScrapPieceAt(0, out _);
         }
 
         public void DropAll()
@@ -67,7 +88,7 @@ namespace Assets.Scripts.OmaWatch
                 var index = i++ * TrailSpacing + TrailStartSpacing;
                 if (index > _trail.Count)
                     index = _trail.Count - 1;
-                if (index > 0)
+                if (index > 0 && index < _trail.Count)
                     lastPosition = _trail[index];
 
                 child.position = lastPosition;
@@ -81,7 +102,8 @@ namespace Assets.Scripts.OmaWatch
         {
             var config = element.Config;
             var position = element.transform.position;
-            Instantiate(DroppedPrefab, position, Quaternion.identity).Config = config;
+            var instance = Instantiate(DroppedPrefab, position, Quaternion.identity);
+            instance.Config = config;
             Destroy(element.gameObject);
         }
     }
