@@ -33,7 +33,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (!GrabTarget.IsSuspicious)
                 return;
 
-            if (WorldRoot.Instance.GetTilePos(transform.position) != WorldRoot.Instance.GetTilePos(GrabTarget.transform.position))
+            if(Vector3.Distance(transform.position, GrabTarget.transform.position) > GrabDistance)
                 return;
 
             _agent.SetTask(new GrabTask(GrabTarget.gameObject, ReleasePosition));
