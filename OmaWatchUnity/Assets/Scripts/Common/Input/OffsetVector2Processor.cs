@@ -29,7 +29,7 @@ namespace Assets.Scripts.Common.Input
         {
             var result = value + new Vector2(X, Y);
 
-            Debug.Log(result);
+            //Debug.Log(result);
             return result;
         }
 
