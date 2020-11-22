@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
@@ -27,7 +28,10 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public TileNavMovementController Nav => GetComponent<TileNavMovementController>();
 
-        
+        private void Awake()
+        {
+            Nav.Speed = 0.5f;
+        }
 
         public void Update()
         {
@@ -61,7 +65,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             {
                 case AgentState.Chase:
                     chaseIndicator.enabled = false;
-                    Nav.Speed = 1f;
+                    Nav.Speed = 0.5f;
                     break;
             }
 
@@ -71,7 +75,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             {
                 case AgentState.Chase:
                     chaseIndicator.enabled = true;
-                    Nav.Speed = 1.1f;
+                    Nav.Speed = 1f;
                     break;
             }
         }
