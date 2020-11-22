@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.OmaWatch.Ai.Tasks;
 using Assets.Scripts.OmaWatch.Player;
+using Assets.Scripts.OmaWatch.World;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -32,8 +33,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (!GrabTarget.IsSuspicious)
                 return;
 
-            var distance = Vector3.Distance(transform.position, GrabTarget.transform.position);
-            if (distance > GrabDistance)
+            if (WorldRoot.Instance.GetTilePos(transform.position) != WorldRoot.Instance.GetTilePos(GrabTarget.transform.position))
                 return;
 
             _agent.SetTask(new GrabTask(GrabTarget.gameObject, ReleasePosition));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.World;
@@ -10,16 +11,18 @@ namespace Assets.Scripts.OmaWatch.Ai
 {
     public class TileNavMovementController : MonoBehaviour
     {
-        [Range(0.1f, 5f)] public float Speed = 1f;
+        [Range(0.1f, 5f)]
+        public float Speed = 1f;
+
         public Transform DebugTargetPos;
         public GameObject TileIndicator;
+        public GameObject NextMovePosIndicator;
 
         private TaskCompletionSource<MoveResult> _currentOp;
         private CancellationToken? _currentCancellationToken;
         private readonly Queue<Vector3> _movePositions = new Queue<Vector3>();
 
 
-        private float _time;
         private Vector3 _prevPos;
         private Transform _currentTarget;
         private Vector3Int _currentTargetTile;
@@ -39,9 +42,9 @@ namespace Assets.Scripts.OmaWatch.Ai
             _currentTarget = target;
             _currentCancellationToken = cancellationToken;
 
-            var position = target.position;
-            _currentTargetTile = WorldRoot.Instance.GetTilePos(position);
-            var path = WorldRoot.Instance.GetPath(transform.position, position);
+            var currentTargetPosition = target.position;
+            _currentTargetTile = WorldRoot.Instance.GetTilePos(currentTargetPosition);
+            var path = WorldRoot.Instance.GetPath(transform.position, currentTargetPosition);
             if (path == null)
                 return Task.FromResult(MoveResult.Failed);
 
@@ -69,29 +72,24 @@ namespace Assets.Scripts.OmaWatch.Ai
                 return;
             }
 
-
             if (_movePositions.Count == 0)
                 return;
 
-            _time += Time.deltaTime * Speed;
-
-            transform.position = Vector3.Lerp(_prevPos, _movePositions.Peek(), _time);
-            if (_time < 1f)
-                return;
-
-            _prevPos = _movePositions.Dequeue();
-            _time = _time - 1f;
-
-            //target has moved, repath!
+            //target has moved, append current pos to the end of the path!
             var tileNow = WorldRoot.Instance.GetTilePos(_currentTarget.position);
             if (tileNow != _currentTargetTile)
             {
-                _currentTargetTile = tileNow;
-                var newPath = WorldRoot.Instance.GetPath(_prevPos, _currentTarget.position);
-
-                _movePositions.Clear();
-                newPath.ForEach(p => _movePositions.Enqueue(p));
+                var newTargetPos = WorldRoot.Instance.GetTileWorldPos(tileNow);
+                if (!_movePositions.Contains(newTargetPos))
+                    _movePositions.Enqueue(newTargetPos);
             }
+
+            var travelDistance = Speed * Time.deltaTime;
+            var distanceToTarget = Vector3.Distance(transform.position, _movePositions.Peek());
+            if (travelDistance < distanceToTarget)
+                transform.position = Vector3.MoveTowards(transform.position, _movePositions.Peek(), travelDistance);
+            else
+                transform.position = _movePositions.Dequeue();
 
             if (_movePositions.Count == 0)
                 CompleteOp(MoveResult.Success);
