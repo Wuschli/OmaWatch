@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai;
+using Cinemachine;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
@@ -8,7 +9,10 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
     public class RocketConstructionSite : AbstractTouchInteraction
     {
         public RocketConfig Config;
+        public CinemachineVirtualCamera VirtualCamera;
+
         private RocketConstructionSiteSlot[] _slots;
+
         public RocketConstructionSiteSlot NextSlot => _slots.FirstOrDefault(slot => slot.Config == null);
         public bool AllSlotsFilled => _slots.All(slot => slot.Config != null);
 
@@ -38,11 +42,6 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             }
         }
 
-        private bool CheckWinningCondition()
-        {
-            throw new System.NotImplementedException();
-        }
-
         private void UpdateSlotPositions()
         {
             var previousHeight = 0f;
@@ -53,6 +52,10 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
                 previousPosition = slot.transform.localPosition;
                 previousHeight = slot.Size.y;
             }
+
+            var lastFilledSlot = _slots.LastOrDefault(slot => slot.Config != null);
+            if (lastFilledSlot != null)
+                VirtualCamera.Follow = lastFilledSlot.transform;
         }
 
         private RocketConstructionSiteSlot CreateSlotForConfigElement(RocketConfig.RocketConfigElement e, int layerOrder = 0)
