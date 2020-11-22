@@ -75,21 +75,31 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_movePositions.Count == 0)
                 return;
 
-            //target has moved, append current pos to the end of the path!
-            var tileNow = WorldRoot.Instance.GetTilePos(_currentTarget.position);
-            if (tileNow != _currentTargetTile)
-            {
-                var newTargetPos = WorldRoot.Instance.GetTileWorldPos(tileNow);
-                if (!_movePositions.Contains(newTargetPos))
-                    _movePositions.Enqueue(newTargetPos);
-            }
-
             var travelDistance = Speed * Time.deltaTime;
             var distanceToTarget = Vector3.Distance(transform.position, _movePositions.Peek());
             if (travelDistance < distanceToTarget)
                 transform.position = Vector3.MoveTowards(transform.position, _movePositions.Peek(), travelDistance);
             else
+            {
                 transform.position = _movePositions.Dequeue();
+
+                //target has moved, re-calc the path!
+                var tileNow = WorldRoot.Instance.GetTilePos(_currentTarget.position);
+                if (tileNow != _currentTargetTile)
+                {
+                    _currentTargetTile = tileNow;
+                    var path = WorldRoot.Instance.GetPath(transform.position, _currentTarget.position);
+                    if (path != null)
+                    {
+                        _movePositions.Clear();
+                        path.ForEach(p => _movePositions.Enqueue(p));
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Target path was not found.");
+                    }
+                }
+            }
 
             if (_movePositions.Count == 0)
                 CompleteOp(MoveResult.Success);
