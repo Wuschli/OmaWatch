@@ -1,0 +1,15 @@
+{
+    "name": "Messages",
+    "references": [
+        "GUID:52a802fe5abbcd941a6fa4721e482bed"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

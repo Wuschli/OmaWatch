@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Input;
+using Assets.Scripts.Common.Util;
+using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.Util;
 using Stateless;
 using UnityEngine;
@@ -29,7 +31,8 @@ namespace Assets.Scripts.UI
 
     public class UIManager : Singleton<UIManager>, DefaultInputActions.IUIActions
     {
-        private readonly StateMachine<UIState, UITrigger> _stateMachine = new StateMachine<UIState, UITrigger>(UIState.MainMenu);
+        public UIState DefaultState = UIState.MainMenu;
+        private StateMachine<UIState, UITrigger> _stateMachine;
         private DefaultInputActions _defaultInput;
 
         public async Task Fire(UITrigger trigger)
@@ -40,6 +43,7 @@ namespace Assets.Scripts.UI
         protected override void Awake()
         {
             base.Awake();
+            _stateMachine = new StateMachine<UIState, UITrigger>(DefaultState);
             ConfigureStateMachine();
             _defaultInput = new DefaultInputActions();
             _defaultInput.UI.SetCallbacks(this);
@@ -48,11 +52,17 @@ namespace Assets.Scripts.UI
         protected virtual void OnEnable()
         {
             _defaultInput.UI.Enable();
+            MessageBus.Instance.Subscribe<GameWinMessage>(OnGameWin);
+        }
+
+        private void OnGameWin(GameWinMessage msg)
+        {
+            Fire(UITrigger.Win).FireAndForget();
         }
 
         protected virtual void OnDisable()
         {
-            _defaultInput.UI.Disable();
+            _defaultInput?.UI.Disable();
         }
 
         private void ConfigureStateMachine()
