@@ -55,14 +55,10 @@ namespace Assets.Scripts.UI
             MessageBus.Instance.Subscribe<GameWinMessage>(OnGameWin);
         }
 
-        private void OnGameWin(GameWinMessage msg)
-        {
-            Fire(UITrigger.Win).FireAndForget();
-        }
-
         protected virtual void OnDisable()
         {
             _defaultInput?.UI.Disable();
+            MessageBus.Instance.Unsubscribe<GameWinMessage>(OnGameWin);
         }
 
         private void ConfigureStateMachine()
@@ -97,9 +93,14 @@ namespace Assets.Scripts.UI
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
         }
 
+        private void OnGameWin(GameWinMessage msg)
+        {
+            Fire(UITrigger.Win).FireAndForget();
+        }
+
         private async Task LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            //TODO show loading screen
+            //TODO show loading screen?
             await Awaiters.NextFrame; // switch to main thread
             Debug.Log($"Loading {sceneName} {mode}");
             var operation = SceneManager.LoadSceneAsync(sceneName, mode);

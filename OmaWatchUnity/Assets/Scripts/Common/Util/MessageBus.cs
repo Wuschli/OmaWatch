@@ -2,36 +2,48 @@
 using GameEventBus;
 using GameEventBus.Events;
 using GameEventBus.Interfaces;
+using UnityEngine;
 
 namespace Assets.Scripts.Common.Util
 {
-    public class MessageBus : Singleton<MessageBus>, IEventBus
+    public class MessageBus : Singleton<MessageBus>
     {
         private readonly IEventBus _bus = new EventBus();
 
         public void Subscribe<TEventBase>(Action<TEventBase> action) where TEventBase : EventBase
         {
-            _bus.Subscribe(action);
+            try
+            {
+                _bus.Subscribe(action);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         public void Unsubscribe<TEventBase>(Action<TEventBase> token) where TEventBase : EventBase
         {
-            _bus.Unsubscribe(token);
+            try
+            {
+                _bus.Unsubscribe(token);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         public void Publish<TEventBase>(TEventBase eventItem) where TEventBase : EventBase
         {
-            _bus.Publish(eventItem);
-        }
-
-        public void PublishAsync<TEventBase>(TEventBase eventItem) where TEventBase : EventBase
-        {
-            _bus.PublishAsync(eventItem);
-        }
-
-        public void PublishAsync<TEventBase>(TEventBase eventItem, AsyncCallback callback) where TEventBase : EventBase
-        {
-            _bus.PublishAsync(eventItem, callback);
+            try
+            {
+                _bus.Publish(eventItem);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 }

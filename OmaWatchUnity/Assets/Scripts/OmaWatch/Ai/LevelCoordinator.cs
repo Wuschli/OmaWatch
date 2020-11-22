@@ -1,6 +1,8 @@
-﻿using Assets.Scripts.Common.Util;
+﻿using System.Threading.Tasks;
+using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
+using Assets.Scripts.OmaWatch.Util;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
@@ -14,8 +16,14 @@ namespace Assets.Scripts.OmaWatch.Ai
                 return false;
             if (!ConstructionSite.AllSlotsFilled)
                 return false;
-            MessageBus.Instance.Publish(new GameWinMessage());
+            StartWinningSequence().FireAndForget();
             return true;
+        }
+
+        private async Task StartWinningSequence()
+        {
+            await Task.Delay(5000);
+            MessageBus.Instance.Publish(new GameWinMessage());
         }
     }
 }
