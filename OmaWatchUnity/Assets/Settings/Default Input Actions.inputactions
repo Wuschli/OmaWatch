@@ -180,7 +180,18 @@
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Default",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1303a658-af9f-4a6f-bde7-f42608a30f51",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "AbsoluteToRelativePointerPosition,OffsetVector2(X=-0.5,Y=-0.5),ScaleVector2(x=2,y=2)",
+                    "groups": "Default",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -1,9 +1,7 @@
 {
-    "name": "OmaWatch",
+    "name": "Common",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:4307f53044263cf4b835bd812fc161a4",
-        "GUID:4ddc954e3e6db874a954a87d48729e4f"
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
