@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.OmaWatch.Util;
+using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
@@ -6,7 +7,16 @@ namespace Assets.Scripts.UI
     {
         public void StartGame()
         {
-            _ = UIManager.Instance.Fire(UITrigger.StartGame);
+            UIManager.Instance.Fire(UITrigger.StartGame).FireAndForget();
+        }
+
+        public void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#else
+            Application.Quit();
+#endif
         }
     }
 }
