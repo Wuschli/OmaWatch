@@ -15,7 +15,8 @@ namespace Assets.Scripts.UI
         MainMenu,
         InGame,
         Pause,
-        GameOver
+        Lose,
+        Win
     }
 
     public enum UITrigger
@@ -23,7 +24,8 @@ namespace Assets.Scripts.UI
         StartGame,
         Pause,
         Resume,
-        GameOver,
+        Lose,
+        Win,
         ToMainMenu
     }
 
@@ -72,7 +74,8 @@ namespace Assets.Scripts.UI
                 .OnEntryAsync(OnEntryInGameAsync)
                 .OnExitAsync(OnExitInGameAsync)
                 .Permit(UITrigger.Pause, UIState.Pause)
-                .Permit(UITrigger.GameOver, UIState.GameOver);
+                .Permit(UITrigger.Lose, UIState.Lose)
+                .Permit(UITrigger.Win, UIState.Win);
 
             _stateMachine.Configure(UIState.Pause)
                 .SubstateOf(UIState.InGame)
@@ -81,14 +84,20 @@ namespace Assets.Scripts.UI
                 .Permit(UITrigger.Resume, UIState.InGame)
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
 
-            _stateMachine.Configure(UIState.GameOver)
-                .OnEntryAsync(OnEntryGameOverAsync)
-                .OnExitAsync(OnExitGameOverAsync)
+            _stateMachine.Configure(UIState.Lose)
+                .OnEntryAsync(OnEntryLoseAsync)
+                .OnExitAsync(OnExitLoseAsync)
+                .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
+
+            _stateMachine.Configure(UIState.Win)
+                .OnEntryAsync(OnEntryWinAsync)
+                .OnExitAsync(OnExitWinAsync)
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
         }
 
         private async Task LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
+            //TODO show loading screen
             await Awaiters.NextFrame; // switch to main thread
             Debug.Log($"Loading {sceneName} {mode}");
             var operation = SceneManager.LoadSceneAsync(sceneName, mode);
@@ -117,7 +126,7 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("Test");
+            await LoadScene("level1");
         }
 
         private Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -135,16 +144,25 @@ namespace Assets.Scripts.UI
         private async Task OnExitPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
             await UnloadScene("Pause").ConfigureAwait(true);
-            //await Awaiters.NextFrame; // switch to main thread
             Time.timeScale = 1;
         }
 
-        private async Task OnEntryGameOverAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private async Task OnEntryLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("GameOver");
+            await LoadScene("Lose");
         }
 
-        private Task OnExitGameOverAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private Task OnExitLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        {
+            return Task.CompletedTask;
+        }
+
+        private async Task OnEntryWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        {
+            await LoadScene("Win");
+        }
+
+        private Task OnExitWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
             return Task.CompletedTask;
         }
