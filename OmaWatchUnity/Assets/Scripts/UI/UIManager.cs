@@ -51,12 +51,16 @@ namespace Assets.Scripts.UI
 
         protected virtual void OnEnable()
         {
+            if (Instance != this)
+                return;
             _defaultInput.UI.Enable();
             MessageBus.Instance.Subscribe<GameWinMessage>(OnGameWin);
         }
 
         protected virtual void OnDisable()
         {
+            if (Instance != this)
+                return;
             _defaultInput?.UI.Disable();
             MessageBus.Instance.Unsubscribe<GameWinMessage>(OnGameWin);
         }
