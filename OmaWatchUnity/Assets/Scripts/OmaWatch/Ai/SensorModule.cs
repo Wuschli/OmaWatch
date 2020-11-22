@@ -13,10 +13,17 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         private SuspiciousBehaviour Target => AICoordinator.Instance.SuspiciousBehaviour;
 
-        [FormerlySerializedAs("chaseDistance")] public float ChaseDistance = 1;
-        [FormerlySerializedAs("chaseTime")] public float ChaseTime = 5;
-        [FormerlySerializedAs("restTime")] public float RestTime = 1;
-        [FormerlySerializedAs("agggroTime")] public float AggroTime = 1;
+        [FormerlySerializedAs("chaseDistance")]
+        public float ChaseDistance = 1;
+
+        [FormerlySerializedAs("chaseTime")]
+        public float ChaseTime = 5;
+
+        [FormerlySerializedAs("restTime")]
+        public float RestTime = 1;
+
+        [FormerlySerializedAs("agggroTime")]
+        public float AggroTime = 1;
 
         private float _currentAggro = 0;
 
@@ -32,11 +39,8 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_agent.CurrentState != AgentBehaviour.AgentState.Idle)
                 return;
 
-            if (!Target.IsSuspicious)
-                return;
-
             var dist = Vector3.Distance(transform.position, Target.transform.position);
-            if (dist > ChaseDistance)
+            if (!Target.IsSuspicious || dist > ChaseDistance || !CanSeeTarget())
             {
                 _currentAggro = Math.Max(_currentAggro - Time.deltaTime, 0);
                 return;
@@ -53,6 +57,13 @@ namespace Assets.Scripts.OmaWatch.Ai
             _agent.SetTask(new ChaseTask(Target, ChaseTime));
             _agent.EnqueueTask(new ExhaustedTask(RestTime));
             _currentAggro = 0;
+        }
+
+        public bool CanSeeTarget()
+        {
+            var hit = Physics2D.Raycast(transform.position, (Target.transform.position - transform.position).normalized);
+
+            return hit.transform == Target.transform;
         }
     }
 }
