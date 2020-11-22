@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace Assets.Scripts.Common.Input
@@ -27,10 +27,7 @@ namespace Assets.Scripts.Common.Input
 
         public override Vector2 Process(Vector2 value, InputControl control)
         {
-            var result = value + new Vector2(X, Y);
-
-            Debug.Log(result);
-            return result;
+            return value + new Vector2(X, Y);
         }
 
         [RuntimeInitializeOnLoadMethod]

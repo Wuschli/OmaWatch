@@ -1,17 +1,32 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class ScrapPiece : AbstractPickUpItem
     {
-        public ScrapPieceConfig Config;
+        [FormerlySerializedAs("Config")]
+        [SerializeField]
+        private ScrapPieceConfig _config;
+
+        public ScrapPieceConfig Config
+        {
+            get => _config;
+            set
+            {
+                _config = value;
+                UpdateSprite();
+            }
+        }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            GetComponent<SpriteRenderer>().sprite = Config.Sprite;
+            if (_config == null)
+                return;
+            UpdateSprite();
         }
 
         protected override async Task<bool> PickUpAsync(AbstractPlayerController player)
@@ -22,8 +37,13 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             await Task.Yield();
             Debug.Log("SCRAP!");
             if (player.ScrapTrail != null)
-                return player.ScrapTrail.TryAddElement(Config);
+                return player.ScrapTrail.TryAddElement(_config);
             return false;
+        }
+
+        private void UpdateSprite()
+        {
+            GetComponent<SpriteRenderer>().sprite = _config.Sprite;
         }
     }
 }

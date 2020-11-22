@@ -1,7 +1,8 @@
 {
     "name": "Common",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:52a802fe5abbcd941a6fa4721e482bed"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

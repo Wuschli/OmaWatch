@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Input;
+using Assets.Scripts.Common.Util;
+using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.Util;
 using Stateless;
 using UnityEngine;
@@ -46,6 +48,12 @@ namespace Assets.Scripts.UI
         protected virtual void OnEnable()
         {
             _defaultInput.UI.Enable();
+            MessageBus.Instance.Subscribe<GameWinMessage>(OnGameWin);
+        }
+
+        private void OnGameWin(GameWinMessage msg)
+        {
+            //_stateMachine.Fire();
         }
 
         protected virtual void OnDisable()
