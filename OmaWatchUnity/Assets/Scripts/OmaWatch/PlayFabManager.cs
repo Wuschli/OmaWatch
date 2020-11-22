@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Assets.Scripts.OmaWatch
     {
         private string PlayerProfilePath => Path.Combine(Application.persistentDataPath, "profile.dat");
         private LoginResult _loginResult;
+
+        public bool IsLoggedIn => _loginResult != null;
 
         public async Task Login()
         {
@@ -37,11 +40,42 @@ namespace Assets.Scripts.OmaWatch
             var loginResult = await completionSource.Task;
 
             if (error != null)
+            {
                 Debug.LogError(error.GenerateErrorReport());
+            }
             else
             {
                 Debug.Log($"Login successful: {loginResult.PlayFabId}");
                 _loginResult = loginResult;
+            }
+        }
+
+        public async Task UpdatePlayerStatistic(string statisticName, int value)
+        {
+            if (_loginResult == null)
+                throw new InvalidOperationException("PlayFab is not logged in!");
+            var request = new UpdatePlayerStatisticsRequest
+            {
+                Statistics = new List<StatisticUpdate>
+                {
+                    new StatisticUpdate {StatisticName = statisticName, Value = value}
+                }
+            };
+            var completionSource = new TaskCompletionSource<UpdatePlayerStatisticsResult>();
+            PlayFabError error = null;
+            PlayFabClientAPI.UpdatePlayerStatistics(request, completionSource.SetResult, e =>
+            {
+                error = e;
+                completionSource.SetResult(null);
+            });
+            var updateResult = await completionSource.Task;
+            if (error != null)
+            {
+                Debug.LogError(error.GenerateErrorReport());
+            }
+            else
+            {
+                Debug.Log($"Statistic {statisticName} successfully set to {value}");
             }
         }
 

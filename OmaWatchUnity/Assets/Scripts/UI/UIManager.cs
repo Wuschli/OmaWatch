@@ -62,7 +62,7 @@ namespace Assets.Scripts.UI
             if (Instance != this)
                 return;
             _defaultInput?.UI.Disable();
-            MessageBus.Instance.Unsubscribe<GameWinMessage>(OnGameWin);
+            //MessageBus.Instance.Unsubscribe<GameWinMessage>(OnGameWin);
         }
 
         private void ConfigureStateMachine()

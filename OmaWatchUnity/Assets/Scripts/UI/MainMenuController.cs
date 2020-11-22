@@ -8,7 +8,8 @@ namespace Assets.Scripts.UI
     {
         protected void OnEnable()
         {
-            PlayFabManager.Instance.Login().FireAndForget();
+            if (!PlayFabManager.Instance.IsLoggedIn)
+                PlayFabManager.Instance.Login().FireAndForget();
         }
 
         public void StartGame()
