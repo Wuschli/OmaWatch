@@ -20,7 +20,7 @@ namespace Assets.Scripts.OmaWatch.Ai
         }
 
         public AbstractWorldTask defaultTask;
-        public SpriteRenderer chaseIndicator;
+        public GameObject chaseIndicator;
 
         private readonly Queue<ITask> _taskQueue = new Queue<ITask>();
         public ITask CurrentTask { get; private set; }
@@ -64,7 +64,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             switch (CurrentState)
             {
                 case AgentState.Chase:
-                    chaseIndicator.enabled = false;
+                    chaseIndicator.SetActive(false);
                     Nav.Speed = 0.5f;
                     break;
             }
@@ -74,7 +74,7 @@ namespace Assets.Scripts.OmaWatch.Ai
             switch (CurrentState)
             {
                 case AgentState.Chase:
-                    chaseIndicator.enabled = true;
+                    chaseIndicator.SetActive(true);
                     Nav.Speed = 1f;
                     break;
             }

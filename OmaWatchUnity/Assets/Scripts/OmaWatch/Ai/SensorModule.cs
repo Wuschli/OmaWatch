@@ -28,6 +28,7 @@ namespace Assets.Scripts.OmaWatch.Ai
         private float _currentAggro = 0;
 
         public float Aggro => _currentAggro / AggroTime;
+        public bool AggroIncreasing { get; private set; }
 
         public void Awake()
         {
@@ -43,10 +44,12 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (!Target.IsSuspicious || dist > ChaseDistance || !CanSeeTarget())
             {
                 _currentAggro = Math.Max(_currentAggro - Time.deltaTime, 0);
+                AggroIncreasing = false;
                 return;
             }
 
             _currentAggro = Math.Min(_currentAggro + Time.deltaTime, AggroTime);
+            AggroIncreasing = true;
 
             if (_currentAggro < AggroTime)
                 return;
