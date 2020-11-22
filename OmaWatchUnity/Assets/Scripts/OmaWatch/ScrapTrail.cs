@@ -88,7 +88,7 @@ namespace Assets.Scripts.OmaWatch
                 var index = i++ * TrailSpacing + TrailStartSpacing;
                 if (index > _trail.Count)
                     index = _trail.Count - 1;
-                if (index > 0)
+                if (index > 0 && index < _trail.Count)
                     lastPosition = _trail[index];
 
                 child.position = lastPosition;

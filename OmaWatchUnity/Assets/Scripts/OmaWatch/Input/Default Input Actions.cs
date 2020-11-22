@@ -253,7 +253,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""name"": ""Scroll Wheel"",
                     ""type"": ""Value"",
                     ""id"": ""d417e51f-4f04-4abc-b6d5-d84091018897"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -342,8 +342,8 @@ namespace Assets.Scripts.OmaWatch.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f6ab72e3-b620-4068-b098-ba68cd6ef20e"",
-                    ""path"": ""<Mouse>/scroll/y"",
+                    ""id"": ""b9f275b8-4e69-44bd-82c4-36bb1b0fd106"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Default"",

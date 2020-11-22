@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
-using Assets.Scripts.OmaWatch.Util;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
