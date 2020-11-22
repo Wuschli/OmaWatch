@@ -16,9 +16,6 @@ namespace Assets.Scripts.OmaWatch.Ai
         [FormerlySerializedAs("chaseDistance")]
         public float ChaseDistance = 1;
 
-        [FormerlySerializedAs("chaseTime")]
-        public float ChaseTime = 5;
-
         [FormerlySerializedAs("restTime")]
         public float RestTime = 1;
 
@@ -57,7 +54,7 @@ namespace Assets.Scripts.OmaWatch.Ai
 
             Debug.DrawLine(transform.position, Target.transform.position, Color.red, 10);
             Debug.Log("starting chase");
-            _agent.SetTask(new ChaseTask(Target, ChaseTime));
+            _agent.SetTask(new ChaseTask(Target));
             _agent.EnqueueTask(new ExhaustedTask(RestTime));
             _currentAggro = 0;
         }

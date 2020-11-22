@@ -14,13 +14,11 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
     {
         private readonly SuspiciousBehaviour _chaseTarget;
         private readonly CancellationTokenSource _cancellationToken;
-        private float _chaseTime;
 
 
-        public ChaseTask(SuspiciousBehaviour chaseTarget, float chaseTime)
+        public ChaseTask(SuspiciousBehaviour chaseTarget)
         {
             _chaseTarget = chaseTarget;
-            _chaseTime = chaseTime;
             _cancellationToken = new CancellationTokenSource();
         }
 
@@ -42,13 +40,6 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
 
         public void Update()
         {
-            _chaseTime -= Time.deltaTime;
-            if (_chaseTime <= 0.0f)
-            {
-                Debug.Log("Chase Timeout!");
-                Cancel();
-            }
-
             if (!_chaseTarget.IsSuspicious)
                 Cancel();
         }
