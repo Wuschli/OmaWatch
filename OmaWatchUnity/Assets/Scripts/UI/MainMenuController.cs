@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.OmaWatch;
+﻿using System.Threading.Tasks;
+using Assets.Scripts.OmaWatch;
 using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
 
@@ -8,8 +9,7 @@ namespace Assets.Scripts.UI
     {
         protected void OnEnable()
         {
-            if (!PlayFabManager.Instance.IsLoggedIn)
-                PlayFabManager.Instance.Login().FireAndForget();
+            StartUp().FireAndForget();
         }
 
         public void StartGame()
@@ -24,6 +24,14 @@ namespace Assets.Scripts.UI
 #else
             Application.Quit();
 #endif
+        }
+
+        private async Task StartUp()
+        {
+            if (!PlayFabManager.Instance.IsLoggedIn)
+                await PlayFabManager.Instance.Login();
+
+            var leaderboard = await PlayFabManager.Instance.GetLeaderboard("High Score");
         }
     }
 }

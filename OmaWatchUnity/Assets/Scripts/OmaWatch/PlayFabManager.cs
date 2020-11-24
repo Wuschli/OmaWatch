@@ -42,18 +42,18 @@ namespace Assets.Scripts.OmaWatch
             if (error != null)
             {
                 Debug.LogError(error.GenerateErrorReport());
+                return;
             }
-            else
-            {
-                Debug.Log($"Login successful: {loginResult.PlayFabId}");
-                _loginResult = loginResult;
-            }
+
+            Debug.Log($"Login successful: {loginResult.PlayFabId}");
+            _loginResult = loginResult;
         }
 
         public async Task UpdatePlayerStatistic(string statisticName, int value)
         {
             if (_loginResult == null)
                 throw new InvalidOperationException("PlayFab is not logged in!");
+
             var request = new UpdatePlayerStatisticsRequest
             {
                 Statistics = new List<StatisticUpdate>
@@ -63,6 +63,7 @@ namespace Assets.Scripts.OmaWatch
             };
             var completionSource = new TaskCompletionSource<UpdatePlayerStatisticsResult>();
             PlayFabError error = null;
+
             PlayFabClientAPI.UpdatePlayerStatistics(request, completionSource.SetResult, e =>
             {
                 error = e;
@@ -72,11 +73,42 @@ namespace Assets.Scripts.OmaWatch
             if (error != null)
             {
                 Debug.LogError(error.GenerateErrorReport());
+                return;
             }
-            else
+
+            Debug.Log($"Statistic {statisticName} successfully set to {value}");
+        }
+
+        public async Task<GetLeaderboardResult> GetLeaderboard(string statisticName, int startPosition = 0, int maxResultsCount = 10)
+        {
+            if (_loginResult == null)
+                throw new InvalidOperationException("PlayFab is not logged in!");
+
+            var request = new GetLeaderboardRequest
             {
-                Debug.Log($"Statistic {statisticName} successfully set to {value}");
+                StatisticName = statisticName,
+                StartPosition = startPosition,
+                MaxResultsCount = maxResultsCount
+            };
+            var completionSource = new TaskCompletionSource<GetLeaderboardResult>();
+            PlayFabError error = null;
+
+            PlayFabClientAPI.GetLeaderboard(request, completionSource.SetResult, e =>
+            {
+                error = e;
+                completionSource.SetResult(null);
+            });
+
+            var result = await completionSource.Task;
+
+            if (error != null)
+            {
+                Debug.LogError(error.GenerateErrorReport());
+                return null;
             }
+
+            Debug.Log($"Leaderboard for {statisticName} retrieved successfully");
+            return result;
         }
 
         private PlayerProfile LoadOrCreatePlayerProfile()
