@@ -30,8 +30,6 @@ namespace Assets.Scripts.UI
         {
             if (!PlayFabManager.Instance.IsLoggedIn)
                 await PlayFabManager.Instance.Login();
-
-            var leaderboard = await PlayFabManager.Instance.GetLeaderboard("High Score");
         }
     }
 }

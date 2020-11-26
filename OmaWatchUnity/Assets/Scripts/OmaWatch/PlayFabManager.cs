@@ -17,6 +17,7 @@ namespace Assets.Scripts.OmaWatch
         private LoginResult _loginResult;
 
         public bool IsLoggedIn => _loginResult != null;
+        public string LocalPlayFabId => _loginResult?.PlayFabId;
 
         public async Task Login()
         {

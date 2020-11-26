@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lose.unity
     guid: 170f78ab7c704494f88446b6189cca26
+  - enabled: 1
+    path: Assets/Scenes/HUD.unity
+    guid: 483864e1db42d3748a0bd33d63cf3f4a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 2f64105263b497140ab8fd223d70ac64, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: d725a68d079310845b32a3a067ed6347, type: 2}

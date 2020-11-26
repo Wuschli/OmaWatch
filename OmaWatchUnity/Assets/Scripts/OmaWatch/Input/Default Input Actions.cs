@@ -43,6 +43,14 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": ""StickDeadzone"",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f125b61-c498-4da0-a644-fb385dbbac2f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -210,6 +218,28 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58ad2156-13c8-4a47-ab07-eadae390afb4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a52fe6af-b595-437a-98a7-dd919460f7d4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -294,14 +324,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""815a3783-8943-4b19-a862-bcaf1393cefd"",
                     ""expectedControlType"": ""Quaternion"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""09818ef2-28ae-4e93-9623-bde85033d4e5"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -515,28 +537,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6ff029a5-f488-4e03-8103-762925111e55"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6a07ea8b-3825-4664-8d88-a73e15b86728"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -570,6 +570,7 @@ namespace Assets.Scripts.OmaWatch.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_DropAll = m_Player.FindAction("DropAll", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+            m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -582,7 +583,6 @@ namespace Assets.Scripts.OmaWatch.Input
             m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
             m_UI_TrackedPosition = m_UI.FindAction("Tracked Position", throwIfNotFound: true);
             m_UI_TrackedOrientation = m_UI.FindAction("Tracked Orientation", throwIfNotFound: true);
-            m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -635,6 +635,7 @@ namespace Assets.Scripts.OmaWatch.Input
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_DropAll;
         private readonly InputAction m_Player_Look;
+        private readonly InputAction m_Player_Pause;
         public struct PlayerActions
         {
             private @DefaultInputActions m_Wrapper;
@@ -642,6 +643,7 @@ namespace Assets.Scripts.OmaWatch.Input
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @DropAll => m_Wrapper.m_Player_DropAll;
             public InputAction @Look => m_Wrapper.m_Player_Look;
+            public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -660,6 +662,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -673,6 +678,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -691,7 +699,6 @@ namespace Assets.Scripts.OmaWatch.Input
         private readonly InputAction m_UI_Cancel;
         private readonly InputAction m_UI_TrackedPosition;
         private readonly InputAction m_UI_TrackedOrientation;
-        private readonly InputAction m_UI_Pause;
         public struct UIActions
         {
             private @DefaultInputActions m_Wrapper;
@@ -706,7 +713,6 @@ namespace Assets.Scripts.OmaWatch.Input
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
             public InputAction @TrackedPosition => m_Wrapper.m_UI_TrackedPosition;
             public InputAction @TrackedOrientation => m_Wrapper.m_UI_TrackedOrientation;
-            public InputAction @Pause => m_Wrapper.m_UI_Pause;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -746,9 +752,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     @TrackedOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
                     @TrackedOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
                     @TrackedOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
-                    @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
-                    @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
-                    @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -783,9 +786,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     @TrackedOrientation.started += instance.OnTrackedOrientation;
                     @TrackedOrientation.performed += instance.OnTrackedOrientation;
                     @TrackedOrientation.canceled += instance.OnTrackedOrientation;
-                    @Pause.started += instance.OnPause;
-                    @Pause.performed += instance.OnPause;
-                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -804,6 +804,7 @@ namespace Assets.Scripts.OmaWatch.Input
             void OnMove(InputAction.CallbackContext context);
             void OnDropAll(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -817,7 +818,6 @@ namespace Assets.Scripts.OmaWatch.Input
             void OnCancel(InputAction.CallbackContext context);
             void OnTrackedPosition(InputAction.CallbackContext context);
             void OnTrackedOrientation(InputAction.CallbackContext context);
-            void OnPause(InputAction.CallbackContext context);
         }
     }
 }
