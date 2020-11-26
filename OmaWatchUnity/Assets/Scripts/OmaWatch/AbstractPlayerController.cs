@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.OmaWatch.Ai;
+using Assets.Scripts.OmaWatch.GamePlay;
 using Assets.Scripts.OmaWatch.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,6 +41,13 @@ namespace Assets.Scripts.OmaWatch
             _lookInput = context.action.ReadValue<Vector2>();
             if (_lookInput.sqrMagnitude > 1)
                 _lookInput.Normalize();
+        }
+
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+            LevelCoordinator.Instance.TogglePause();
         }
 
         protected virtual void Awake()

@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3544634657826302282}
   - component: {fileID: 3544634657826302277}
+  - component: {fileID: 5152214367312421810}
   - component: {fileID: 3544634657826302283}
   - component: {fileID: 5488605426803997591}
   m_Layer: 0
@@ -127,6 +128,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: 891f22289152eba478631a8a62b72dee, type: 2}
   VirtualCamera: {fileID: 4587349846670404583}
+--- !u!114 &5152214367312421810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544634657826302280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10c748e339248778ce74dac657ee61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelName: 
 --- !u!60 &3544634657826302283
 PolygonCollider2D:
   m_ObjectHideFlags: 0

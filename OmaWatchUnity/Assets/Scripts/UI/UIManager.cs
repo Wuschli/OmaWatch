@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Assets.Scripts.OmaWatch.Input;
 using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.Util;
 using Stateless;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.UI
@@ -29,11 +27,10 @@ namespace Assets.Scripts.UI
         ToMainMenu
     }
 
-    public class UIManager : Singleton<UIManager>, DefaultInputActions.IUIActions
+    public class UIManager : Singleton<UIManager>
     {
         public UIState DefaultState = UIState.MainMenu;
         private StateMachine<UIState, UITrigger> _stateMachine;
-        private DefaultInputActions _defaultInput;
 
         public async Task Fire(UITrigger trigger)
         {
@@ -45,20 +42,14 @@ namespace Assets.Scripts.UI
             base.Awake();
             _stateMachine = new StateMachine<UIState, UITrigger>(DefaultState);
             ConfigureStateMachine();
-            _defaultInput = new DefaultInputActions();
-            _defaultInput.UI.SetCallbacks(this);
         }
 
         protected virtual void OnEnable()
         {
-            _defaultInput.UI.Enable();
+            if (Instance != this)
+                return;
             MessageBus.Instance.Subscribe<GameWinMessage>(OnGameWin);
-        }
-
-        protected virtual void OnDisable()
-        {
-            _defaultInput?.UI.Disable();
-            MessageBus.Instance.Unsubscribe<GameWinMessage>(OnGameWin);
+            MessageBus.Instance.Subscribe<GamePauseMessage>(OnGamePaused);
         }
 
         private void ConfigureStateMachine()
@@ -98,6 +89,14 @@ namespace Assets.Scripts.UI
             Fire(UITrigger.Win).FireAndForget();
         }
 
+        private void OnGamePaused(GamePauseMessage msg)
+        {
+            if (msg.IsPaused)
+                Fire(UITrigger.Pause).FireAndForget();
+            else
+                Fire(UITrigger.Resume).FireAndForget();
+        }
+
         private async Task LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
             //TODO show loading screen?
@@ -130,6 +129,7 @@ namespace Assets.Scripts.UI
         private async Task OnEntryInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
             await LoadScene("level1");
+            await LoadScene("HUD", LoadSceneMode.Additive);
         }
 
         private Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -139,15 +139,12 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await Awaiters.NextFrame; // switch to main thread
-            Time.timeScale = 0;
             await LoadScene("Pause", LoadSceneMode.Additive);
         }
 
         private async Task OnExitPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
             await UnloadScene("Pause").ConfigureAwait(true);
-            Time.timeScale = 1;
         }
 
         private async Task OnEntryLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -168,56 +165,6 @@ namespace Assets.Scripts.UI
         private Task OnExitWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
             return Task.CompletedTask;
-        }
-
-        public void OnPoint(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnLeftClick(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnMiddleClick(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnRightClick(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnScrollWheel(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnMove(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnSubmit(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnCancel(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnTrackedPosition(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnTrackedOrientation(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (!context.performed)
-                return;
-            if (_stateMachine.CanFire(UITrigger.Resume))
-                Fire(UITrigger.Resume).FireAndForget();
-            else if (_stateMachine.CanFire(UITrigger.Pause))
-                Fire(UITrigger.Pause).FireAndForget();
         }
     }
 }
