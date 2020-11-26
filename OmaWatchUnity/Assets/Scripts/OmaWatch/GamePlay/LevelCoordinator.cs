@@ -53,10 +53,11 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private async Task StartWinningSequence()
         {
+            Time.timeScale = 0;
+            _currentLevelStopwatch.Stop();
             Score = (int) _currentLevelStopwatch.ElapsedMilliseconds * -1;
             await PlayFabManager.Instance.UpdatePlayerStatistic("High Score", Score);
-            _currentLevelStopwatch.Stop();
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             MessageBus.Instance.Publish(new GameWinMessage());
         }
 
