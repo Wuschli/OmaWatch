@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: lukas.hoeppner@gmail.com
-  DevAccountToken: qyu6i7ofue7ebooqicztra7pjyp69u114dbw9khabcs64cm9fnb6t3excqhzqurm86nhnhwmq77bemsu3r7356cn1w17d1i758hate9o5mknci19a85u95yetnxfr3uk418ofc46674gygsnkqwo9n5h6the561zaqkqki7ti4xawhkjp8cmwmkc3b14tcmporttcanh
-  SelectedStudio: Taco Treehouse
-  SdkPath: Assets/PlayFabSDK
+  DevAccountEmail: 
+  DevAccountToken: 
+  SelectedStudio: 
+  SdkPath: 
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0

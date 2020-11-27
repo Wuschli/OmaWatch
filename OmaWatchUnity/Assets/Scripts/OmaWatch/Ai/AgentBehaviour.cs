@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {

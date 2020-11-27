@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.OmaWatch.World;
+﻿using Assets.Scripts.OmaWatch.World;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;

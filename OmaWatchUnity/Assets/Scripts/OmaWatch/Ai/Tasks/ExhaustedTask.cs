@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine.AI;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {

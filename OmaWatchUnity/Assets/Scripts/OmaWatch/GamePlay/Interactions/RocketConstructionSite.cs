@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Assets.Scripts.OmaWatch.Ai;
 using Cinemachine;
 using UnityEngine;
 

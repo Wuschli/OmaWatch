@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.World;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai

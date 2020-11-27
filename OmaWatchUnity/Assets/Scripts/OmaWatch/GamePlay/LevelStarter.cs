@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.OmaWatch.Util;
+﻿using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.GamePlay

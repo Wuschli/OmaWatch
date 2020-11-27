@@ -3,10 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
 using Assets.Scripts.OmaWatch.Player;
-using UnityEditor.UIElements;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
-using Random = System.Random;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {
