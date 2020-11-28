@@ -36,6 +36,12 @@ namespace Assets.Scripts.OmaWatch
                 ScrapTrail.DropAll();
         }
 
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                Interact();
+        }
+
         public void OnLook(InputAction.CallbackContext context)
         {
             _lookInput = context.action.ReadValue<Vector2>();
@@ -90,6 +96,11 @@ namespace Assets.Scripts.OmaWatch
 
         protected virtual void FixedUpdate()
         {
+        }
+
+        protected virtual void Interact()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

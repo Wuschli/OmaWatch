@@ -22,6 +22,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "db9e9985-1c03-48bd-923a-75ab1e118db5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "cce34d89-4067-4250-a4c4-9195973c49f1",
@@ -174,7 +182,7 @@
                 {
                     "name": "",
                     "id": "e4697651-24e8-4fe6-8d0a-97261d6e85a3",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Default",
@@ -223,6 +231,28 @@
                     "processors": "",
                     "groups": "Default",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c69f8bcb-9771-40a2-ad1e-a12c8434f7b3",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Default",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c777cee6-c545-45f9-8e0c-6877a088af0c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Default",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

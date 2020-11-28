@@ -689,7 +689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1693006416996779620, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_text
-      value: Collect rocket-parts with [interact]
+      value: Collect rocket-parts with [Interact] and drop them with [DropAll]
       objectReference: {fileID: 0}
     - target: {fileID: 2972650822360598640, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_Name
@@ -961,7 +961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1693006416996779620, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_text
-      value: Use [move] to move
+      value: Use [Move] to move
       objectReference: {fileID: 0}
     - target: {fileID: 2972650822360598640, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_Name
@@ -1072,7 +1072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1693006416996779620, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_text
-      value: Look around with [look]
+      value: Look around with [Look]
       objectReference: {fileID: 0}
     - target: {fileID: 2972650822360598640, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_Name
