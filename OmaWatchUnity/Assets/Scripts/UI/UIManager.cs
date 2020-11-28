@@ -10,6 +10,7 @@ namespace Assets.Scripts.UI
 {
     public enum UIState
     {
+        Splash,
         MainMenu,
         InGame,
         Pause,
@@ -19,6 +20,7 @@ namespace Assets.Scripts.UI
 
     public enum UITrigger
     {
+        SplashDone,
         StartGame,
         Pause,
         Resume,
@@ -29,7 +31,7 @@ namespace Assets.Scripts.UI
 
     public class UIManager : Singleton<UIManager>
     {
-        public UIState DefaultState = UIState.MainMenu;
+        public UIState DefaultState = UIState.Splash;
         private StateMachine<UIState, UITrigger> _stateMachine;
 
         public async Task Fire(UITrigger trigger)
@@ -54,6 +56,11 @@ namespace Assets.Scripts.UI
 
         private void ConfigureStateMachine()
         {
+            _stateMachine.Configure(UIState.Splash)
+                .OnEntryAsync(OnEntrySplashAsync)
+                .OnExitAsync(OnExitSplashAsync)
+                .Permit(UITrigger.SplashDone, UIState.MainMenu);
+
             _stateMachine.Configure(UIState.MainMenu)
                 .OnEntryAsync(OnEntryMainMenuAsync)
                 .OnExitAsync(OnExitMainMenuAsync)
@@ -114,6 +121,16 @@ namespace Assets.Scripts.UI
             var operation = SceneManager.UnloadSceneAsync(sceneName);
             await operation;
             Debug.Log($"Done unloading {sceneName}");
+        }
+
+        private async Task OnEntrySplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        {
+            await LoadScene("Splash");
+        }
+
+        private Task OnExitSplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        {
+            return Task.CompletedTask;
         }
 
         private async Task OnEntryMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)

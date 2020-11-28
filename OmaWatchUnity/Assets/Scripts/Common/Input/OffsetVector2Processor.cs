@@ -31,7 +31,7 @@ namespace Assets.Scripts.Common.Input
         }
 
         [RuntimeInitializeOnLoadMethod]
-        static void Initialize()
+        public static void Initialize()
         {
             InputSystem.RegisterProcessor<OffsetVector2Processor>();
         }
