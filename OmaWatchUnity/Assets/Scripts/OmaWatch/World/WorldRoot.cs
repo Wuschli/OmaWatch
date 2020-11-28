@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.World
@@ -18,7 +22,6 @@ namespace Assets.Scripts.OmaWatch.World
 
             _tileGrid = GetComponent<Grid>();
 
-            
 
             foreach (var floor in GetComponentsInChildren<FloorTag>())
             {
@@ -28,10 +31,12 @@ namespace Assets.Scripts.OmaWatch.World
                     var tile = tilemap.GetTile(pos);
                     if (tile == null)
                         continue;
+                    if (_nodes.Any(n => n.Pos == pos))
+                        continue;
 
-                    var node = new WorldNode(pos);
+                    var node = new WorldNode(pos, floor);
+
                     _nodes.Add(node);
-
                     TryAddConnectionNode(pos + Vector3Int.left, node);
                     TryAddConnectionNode(pos + Vector3Int.right, node);
                     TryAddConnectionNode(pos + Vector3Int.up, node);
@@ -50,6 +55,15 @@ namespace Assets.Scripts.OmaWatch.World
         {
             var connection = _nodes.FirstOrDefault(n => n.Pos == pos);
             connection?.AddConnection(node);
+        }
+
+        public bool IsTileSafe(Vector3 worldPos)
+        {
+            var tilePos = GetTilePos(ClampToTile(worldPos));
+            var node = _nodes.FirstOrDefault(n => n.Pos == tilePos);
+            if (node == null || node.Tag.Type == FloorTag.FloorType.Safe)
+                return true;
+            return false;
         }
 
         public Vector3Int GetTilePos(Vector3 pos)

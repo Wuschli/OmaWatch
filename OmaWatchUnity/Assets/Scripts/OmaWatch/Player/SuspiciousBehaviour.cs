@@ -7,8 +7,6 @@ namespace Assets.Scripts.OmaWatch.Player
 {
     public class SuspiciousBehaviour : MonoBehaviour
     {
-        [FormerlySerializedAs("safeTilemap")]
-        public Tilemap SafeTilemap;
         private ScrapTrail _trail;
 
         public bool IsSuspicious { get; private set; }
@@ -38,12 +36,7 @@ namespace Assets.Scripts.OmaWatch.Player
                 return;
             }
 
-            var position = transform.position;
-            var local = SafeTilemap.WorldToCell(position);
-            local.z = 0;
-
-            var tile = SafeTilemap.GetTile(local);
-            if (tile == null)
+            if (!WorldRoot.Instance.IsTileSafe(transform.position))
             {
                 SetSuspicious(true);
                 return;

@@ -6,13 +6,15 @@ namespace Assets.Scripts.OmaWatch.World
     public class WorldNode
     {
         public Vector3Int Pos { get; }
+        public FloorTag Tag { get; set; }
         public IEnumerable<WorldNode> Connections => _connections;
 
         private readonly List<WorldNode> _connections = new List<WorldNode>();
 
-        public WorldNode(Vector3Int pos)
+        public WorldNode(Vector3Int pos, FloorTag tag)
         {
             Pos = pos;
+            Tag = tag;
         }
 
         public void AddConnection(WorldNode node)
