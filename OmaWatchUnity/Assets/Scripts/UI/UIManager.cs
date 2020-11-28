@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
-using Assets.Scripts.OmaWatch.Util;
 using Stateless;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.UI
@@ -104,28 +102,9 @@ namespace Assets.Scripts.UI
                 Fire(UITrigger.Resume).FireAndForget();
         }
 
-        private async Task LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
-        {
-            //TODO show loading screen?
-            await Awaiters.NextFrame; // switch to main thread
-            Debug.Log($"Loading {sceneName} {mode}");
-            var operation = SceneManager.LoadSceneAsync(sceneName, mode);
-            await operation;
-            Debug.Log($"Done loading {sceneName} {mode}");
-        }
-
-        private async Task UnloadScene(string sceneName)
-        {
-            await Awaiters.NextFrame; // switch to main thread
-            Debug.Log($"Unloading {sceneName}");
-            var operation = SceneManager.UnloadSceneAsync(sceneName);
-            await operation;
-            Debug.Log($"Done unloading {sceneName}");
-        }
-
         private async Task OnEntrySplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("Splash");
+            await SceneHelper.LoadScene("Splash");
         }
 
         private Task OnExitSplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -135,7 +114,7 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("MainMenu");
+            await SceneHelper.LoadScene("MainMenu");
         }
 
         private Task OnExitMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -145,8 +124,8 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("level1");
-            await LoadScene("HUD", LoadSceneMode.Additive);
+            await SceneHelper.LoadScene("level1");
+            await SceneHelper.LoadScene("HUD", LoadSceneMode.Additive);
         }
 
         private Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -156,17 +135,17 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("Pause", LoadSceneMode.Additive);
+            await SceneHelper.LoadScene("Pause", LoadSceneMode.Additive);
         }
 
         private async Task OnExitPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await UnloadScene("Pause").ConfigureAwait(true);
+            await SceneHelper.UnloadScene("Pause").ConfigureAwait(true);
         }
 
         private async Task OnEntryLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("Lose");
+            await SceneHelper.LoadScene("Lose");
         }
 
         private Task OnExitLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
@@ -176,7 +155,7 @@ namespace Assets.Scripts.UI
 
         private async Task OnEntryWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await LoadScene("Win");
+            await SceneHelper.LoadScene("Win");
         }
 
         private Task OnExitWinAsync(StateMachine<UIState, UITrigger>.Transition transition)

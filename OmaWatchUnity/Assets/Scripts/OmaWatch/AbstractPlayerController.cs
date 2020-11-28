@@ -73,7 +73,10 @@ namespace Assets.Scripts.OmaWatch
         protected virtual void Update()
         {
             if (Time.timeScale == 0)
+            {
+                LookTarget.localPosition = Vector3.zero;
                 return;
+            }
 
             LookTarget.localPosition = new Vector3(LookInput.x * 2.9f, LookInput.y * 1.9f);
 

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Assets.Scripts.Common.Util;
 using Assets.Scripts.OmaWatch;
 using Assets.Scripts.OmaWatch.GamePlay;
-using Assets.Scripts.OmaWatch.Util;
 using TMPro;
 using UnityEngine;
 

@@ -25,7 +25,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""76728ca6-13ce-465f-89fa-ee273c324e1c"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -41,7 +41,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""cce34d89-4067-4250-a4c4-9195973c49f1"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -59,7 +59,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""2d697e88-449f-4fd6-8db7-4e61a6805e20"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -202,7 +202,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""94508bfd-ecf9-4248-bf60-9a8464df0cd6"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Look"",
                     ""isComposite"": false,

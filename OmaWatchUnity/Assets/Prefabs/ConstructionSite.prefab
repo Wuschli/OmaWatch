@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 5152214367312421810}
   - component: {fileID: 3544634657826302283}
   - component: {fileID: 5488605426803997591}
+  - component: {fileID: 7016077014192061063}
   m_Layer: 0
   m_Name: ConstructionSite
   m_TagString: Untagged
@@ -186,6 +187,25 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.13}
   m_Size: {x: 1, y: 0.35}
   m_Direction: 1
+--- !u!95 &7016077014192061063
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3544634657826302280}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5314607179573288011
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +304,7 @@ GameObject:
   - component: {fileID: 8207696293622416201}
   - component: {fileID: 4587349846670404583}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: ConstructionSiteCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

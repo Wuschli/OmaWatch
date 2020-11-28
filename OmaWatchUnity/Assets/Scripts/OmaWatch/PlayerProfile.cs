@@ -7,5 +7,6 @@ namespace Assets.Scripts.OmaWatch
     public class PlayerProfile
     {
         public Guid Id { get; set; }
+        public bool SkipTutorial { get; set; }
     }
 }

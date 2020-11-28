@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.OmaWatch.Util
+namespace Assets.Scripts.Common.Util
 {
     public static class Vector2Extensions
     {
