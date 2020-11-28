@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.OmaWatch
 {
+    [RequireComponent(typeof(AudioSource))]
     public abstract class AbstractPlayerController : MonoBehaviour, DefaultInputActions.IPlayerActions
     {
         public ScrapTrail ScrapTrail;
@@ -13,6 +14,7 @@ namespace Assets.Scripts.OmaWatch
         public AnimationCurve SpeedCurve;
         public Animator Animator;
         public Vector2 StartRotation = Vector2.down;
+        public AudioClip[] FootStepClips;
 
         private DefaultInputActions _defaultInput;
         private Vector2 _moveInput;
@@ -54,6 +56,12 @@ namespace Assets.Scripts.OmaWatch
             if (!context.performed)
                 return;
             LevelCoordinator.Instance.TogglePause();
+        }
+
+        public void OnFootstep()
+        {
+            var index = Random.Range(0, FootStepClips.Length);
+            GetComponent<AudioSource>().PlayOneShot(FootStepClips[index]);
         }
 
         protected virtual void Awake()
