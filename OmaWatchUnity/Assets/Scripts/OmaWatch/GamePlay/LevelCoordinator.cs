@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.OmaWatch.GamePlay
