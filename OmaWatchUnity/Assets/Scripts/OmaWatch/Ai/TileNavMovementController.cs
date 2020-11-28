@@ -25,7 +25,8 @@ namespace Assets.Scripts.OmaWatch.Ai
         private Vector3 _prevPos;
         private Transform _currentTarget;
         private Vector3Int _currentTargetTile;
-        private Vector2 _lastDirection;
+        private Vector3 _lastDirection;
+        private Vector3 _lastPosition;
 
 
         private void Start()
@@ -38,6 +39,8 @@ namespace Assets.Scripts.OmaWatch.Ai
         {
             if (Animator == null)
                 Animator = GetComponent<Animator>();
+            _lastPosition = transform.position;
+            _lastDirection = Vector3.zero;
         }
 
         public Task<MoveResult> MoveToTarget(Transform target, CancellationToken cancellationToken)
@@ -81,8 +84,6 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_movePositions.Count == 0)
                 return;
 
-            var oldPosition = transform.position;
-
             var travelDistance = Speed * Time.deltaTime;
             var distanceToTarget = Vector3.Distance(transform.position, _movePositions.Peek());
             if (travelDistance < distanceToTarget)
@@ -111,11 +112,18 @@ namespace Assets.Scripts.OmaWatch.Ai
 
             if (_movePositions.Count == 0)
                 CompleteOp(MoveResult.Success);
+        }
 
-            var traveledVector = (Vector2) (transform.position - oldPosition);
+        protected void LateUpdate()
+        {
+            var traveledVector = (transform.position - _lastPosition) / Speed / Time.deltaTime;
+            if (traveledVector.sqrMagnitude > 1)
+                traveledVector.Normalize();
             if (traveledVector.sqrMagnitude > .01f)
                 _lastDirection = traveledVector.normalized;
+            _lastPosition = transform.position;
 
+            Debug.Log(traveledVector);
 
             Animator.SetFloat("AbsoluteSpeed", traveledVector.magnitude);
             Animator.SetFloat("Horizontal", _lastDirection.x);

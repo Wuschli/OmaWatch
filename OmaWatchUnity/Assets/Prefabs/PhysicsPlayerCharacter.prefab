@@ -837,6 +837,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0aede80d6be4a12be9fae2eeff0efd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DistanceToVolumeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   FootStepClips:
   - {fileID: 8300000, guid: 0cb7d73f57c9a41438b2bcfcb2efb944, type: 3}
   - {fileID: 8300000, guid: e6029ad811f8a8d4593cb9bb5ffe2449, type: 3}
