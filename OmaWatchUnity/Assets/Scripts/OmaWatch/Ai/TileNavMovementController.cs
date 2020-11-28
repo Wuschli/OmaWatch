@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.World;
@@ -14,6 +15,7 @@ namespace Assets.Scripts.OmaWatch.Ai
         public Transform DebugTargetPos;
         public GameObject TileIndicator;
         public GameObject NextMovePosIndicator;
+        public Animator Animator;
 
         private TaskCompletionSource<MoveResult> _currentOp;
         private CancellationToken? _currentCancellationToken;
@@ -23,12 +25,19 @@ namespace Assets.Scripts.OmaWatch.Ai
         private Vector3 _prevPos;
         private Transform _currentTarget;
         private Vector3Int _currentTargetTile;
+        private Vector2 _lastDirection;
 
 
         private void Start()
         {
             if (DebugTargetPos != null)
                 MoveToTarget(DebugTargetPos, CancellationToken.None);
+        }
+
+        protected void OnEnable()
+        {
+            if (Animator == null)
+                Animator = GetComponent<Animator>();
         }
 
         public Task<MoveResult> MoveToTarget(Transform target, CancellationToken cancellationToken)
@@ -72,6 +81,8 @@ namespace Assets.Scripts.OmaWatch.Ai
             if (_movePositions.Count == 0)
                 return;
 
+            var oldPosition = transform.position;
+
             var travelDistance = Speed * Time.deltaTime;
             var distanceToTarget = Vector3.Distance(transform.position, _movePositions.Peek());
             if (travelDistance < distanceToTarget)
@@ -100,6 +111,15 @@ namespace Assets.Scripts.OmaWatch.Ai
 
             if (_movePositions.Count == 0)
                 CompleteOp(MoveResult.Success);
+
+            var traveledVector = (Vector2) (transform.position - oldPosition);
+            if (traveledVector.sqrMagnitude > .01f)
+                _lastDirection = traveledVector.normalized;
+
+
+            Animator.SetFloat("AbsoluteSpeed", traveledVector.magnitude);
+            Animator.SetFloat("Horizontal", _lastDirection.x);
+            Animator.SetFloat("Vertical", _lastDirection.y);
         }
 
         private void CompleteOp(MoveResult result)

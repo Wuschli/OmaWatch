@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.OmaWatch.World;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.OmaWatch.Player
 {
