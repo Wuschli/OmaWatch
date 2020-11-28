@@ -24,6 +24,12 @@ namespace Assets.Scripts.OmaWatch.World
             if (!node._connections.Contains(this))
                 node._connections.Add(this);
         }
+
+        public void UnConnect()
+        {
+            foreach (var connection in _connections)
+                connection._connections.Remove(this);
+        }
     }
     
 }
