@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 {
     [RequireComponent(typeof(SpriteRenderer))]
+    [ExecuteInEditMode]
     public class ScrapPiece : AbstractPickUpItem
     {
         [FormerlySerializedAs("Config")]
@@ -43,7 +44,9 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 
         private void UpdateSprite()
         {
-            GetComponent<SpriteRenderer>().sprite = _config.Sprite;
+            var sr = GetComponent<SpriteRenderer>();
+            sr.sprite = _config.Sprite;
+            sr.transform.localScale = Vector3.one / 2;
         }
     }
 }

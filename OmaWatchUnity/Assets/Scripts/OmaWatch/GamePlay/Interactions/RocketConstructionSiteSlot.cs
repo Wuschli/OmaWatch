@@ -16,11 +16,12 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
                 var spriteRenderer = GetComponent<SpriteRenderer>();
                 spriteRenderer.spriteSortPoint = SpriteSortPoint.Center;
                 spriteRenderer.sprite = _config.Sprite;
+                spriteRenderer.size = _config.Sprite.rect.size;
             }
         }
 
         public RocketConfig.RocketConfigElement ElementConfig { get; set; }
-        public Vector2 Size => GetComponent<SpriteRenderer>().size;
+        public Vector2 Size => _config.Size;
 
         public int SortingOrder
         {

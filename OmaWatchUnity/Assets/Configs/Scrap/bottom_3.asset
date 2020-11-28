@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: bottom_3
   m_EditorClassIdentifier: 
   Type: 0
-  Sprite: {fileID: 21300000, guid: 80cd7a9f3fa365f4f8e06e3c4393abc0, type: 3}
+  Sprite: {fileID: 21300000, guid: 8fd172539cb40e248bcb3b38d4d00c49, type: 3}
+  Size: {x: 1.19, y: 0.63}

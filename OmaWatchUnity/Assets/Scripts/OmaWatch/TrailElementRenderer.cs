@@ -14,7 +14,9 @@ namespace Assets.Scripts.OmaWatch
             set
             {
                 _config = value;
-                GetComponent<SpriteRenderer>().sprite = _config.Sprite;
+                var sr = GetComponent<SpriteRenderer>();
+                sr.sprite = _config.Sprite;
+                sr.transform.localScale = Vector3.one / 2;
             }
         }
     }
