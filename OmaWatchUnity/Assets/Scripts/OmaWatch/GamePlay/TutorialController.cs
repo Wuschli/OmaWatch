@@ -20,20 +20,18 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         public async Task Run()
         {
-            Time.timeScale = 0;
             var director = GetComponent<PlayableDirector>();
             var directorCompletionSource = new TaskCompletionSource<bool>();
 
-            void OnDirectorOnStopped(PlayableDirector playableDirector)
+            void OnDirectorDone(PlayableDirector playableDirector)
             {
                 directorCompletionSource.SetResult(true);
             }
 
-            director.stopped += OnDirectorOnStopped;
+            director.stopped += OnDirectorDone;
             director.Play();
             await directorCompletionSource.Task;
-            Time.timeScale = 1;
-            director.stopped -= OnDirectorOnStopped;
+            director.stopped -= OnDirectorDone;
         }
     }
 }

@@ -87,15 +87,10 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private async Task RunTutorial()
         {
-            //if (SceneHelper.IsSceneLoaded(TutorialSceneName))
-            //{
-            //    await SceneHelper.UnloadScene(TutorialSceneName);
-            //}
-
-            //await SceneHelper.LoadScene(TutorialSceneName, LoadSceneMode.Additive);
+            Time.timeScale = 0;
             await Awaiters.NextFrame;
             await TutorialController.Run();
-            //await SceneHelper.UnloadScene(TutorialSceneName);
+            Time.timeScale = 1;
         }
     }
 }
