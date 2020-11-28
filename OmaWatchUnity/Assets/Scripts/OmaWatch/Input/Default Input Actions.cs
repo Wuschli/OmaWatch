@@ -25,7 +25,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""76728ca6-13ce-465f-89fa-ee273c324e1c"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -37,11 +37,19 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""db9e9985-1c03-48bd-923a-75ab1e118db5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""cce34d89-4067-4250-a4c4-9195973c49f1"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -59,7 +67,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""2d697e88-449f-4fd6-8db7-4e61a6805e20"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -189,7 +197,7 @@ namespace Assets.Scripts.OmaWatch.Input
                 {
                     ""name"": """",
                     ""id"": ""e4697651-24e8-4fe6-8d0a-97261d6e85a3"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Default"",
@@ -202,7 +210,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""94508bfd-ecf9-4248-bf60-9a8464df0cd6"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -238,6 +246,28 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""processors"": """",
                     ""groups"": ""Default"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c69f8bcb-9771-40a2-ad1e-a12c8434f7b3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c777cee6-c545-45f9-8e0c-6877a088af0c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -569,6 +599,7 @@ namespace Assets.Scripts.OmaWatch.Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_DropAll = m_Player.FindAction("DropAll", throwIfNotFound: true);
+            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
@@ -634,6 +665,7 @@ namespace Assets.Scripts.OmaWatch.Input
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_DropAll;
+        private readonly InputAction m_Player_Interact;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Pause;
         public struct PlayerActions
@@ -642,6 +674,7 @@ namespace Assets.Scripts.OmaWatch.Input
             public PlayerActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @DropAll => m_Wrapper.m_Player_DropAll;
+            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -659,6 +692,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
+                    @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
@@ -675,6 +711,9 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started += instance.OnDropAll;
                     @DropAll.performed += instance.OnDropAll;
                     @DropAll.canceled += instance.OnDropAll;
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
@@ -803,6 +842,7 @@ namespace Assets.Scripts.OmaWatch.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnDropAll(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
         }

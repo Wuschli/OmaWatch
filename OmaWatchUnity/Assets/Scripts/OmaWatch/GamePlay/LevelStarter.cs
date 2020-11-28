@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.OmaWatch.Util;
+﻿using Assets.Scripts.Common.Util;
 using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.GamePlay
@@ -12,7 +12,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
             if (!PlayFabManager.Instance.IsLoggedIn)
                 PlayFabManager.Instance.Login().FireAndForget();
             if (!string.IsNullOrEmpty(LevelName))
-                LevelCoordinator.Instance.StartLevel(LevelName);
+                LevelCoordinator.Instance.StartLevel(LevelName).FireAndForget();
         }
     }
 }

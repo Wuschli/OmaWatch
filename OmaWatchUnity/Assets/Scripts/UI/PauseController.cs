@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.OmaWatch.GamePlay;
-using Assets.Scripts.OmaWatch.Util;
+﻿using Assets.Scripts.Common.Util;
+using Assets.Scripts.OmaWatch.GamePlay;
 using UnityEngine;
 
 namespace Assets.Scripts.UI

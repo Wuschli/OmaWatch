@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.OmaWatch.Util;
+﻿using Assets.Scripts.Common.Util;
 using UnityEngine;
 using UnityEngine.AI;
 

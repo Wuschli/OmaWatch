@@ -1,21 +1,35 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
-using Assets.Scripts.OmaWatch.Util;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.OmaWatch.GamePlay
 {
     public class LevelCoordinator : Singleton<LevelCoordinator>
     {
+        private const string TutorialSceneName = "Tutorial";
         private readonly Stopwatch _currentLevelStopwatch = new Stopwatch();
         private bool _paused;
 
         public RocketConstructionSite ConstructionSite { get; set; }
+
+        public bool SkipTutorial
+        {
+            get => PlayFabManager.Instance.Profile.SkipTutorial;
+            set
+            {
+                PlayFabManager.Instance.Profile.SkipTutorial = value;
+                PlayFabManager.Instance.SavePlayerProfile();
+            }
+        }
+
         public int Score { get; private set; }
         public int CurrentScore => (int) -_currentLevelStopwatch.ElapsedMilliseconds;
+        public TutorialController TutorialController { get; set; }
 
         public bool CheckWinningCondition()
         {
@@ -61,9 +75,22 @@ namespace Assets.Scripts.OmaWatch.GamePlay
             MessageBus.Instance.Publish(new GameWinMessage());
         }
 
-        public void StartLevel(string levelName)
+        public async Task StartLevel(string levelName)
         {
+            if (!SkipTutorial)
+            {
+                await RunTutorial();
+            }
+
             _currentLevelStopwatch.Restart();
+        }
+
+        private async Task RunTutorial()
+        {
+            Time.timeScale = 0;
+            await Awaiters.NextFrame;
+            await TutorialController.Run();
+            Time.timeScale = 1;
         }
     }
 }

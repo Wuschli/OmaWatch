@@ -15,19 +15,31 @@ namespace Assets.Scripts.OmaWatch
     {
         private string PlayerProfilePath => Path.Combine(Application.persistentDataPath, "profile.dat");
         private LoginResult _loginResult;
+        private PlayerProfile _playerProfile;
 
         public bool IsLoggedIn => _loginResult != null;
         public string LocalPlayFabId => _loginResult?.PlayFabId;
+
+        public PlayerProfile Profile
+        {
+            get
+            {
+                if (_playerProfile == null)
+                    _playerProfile = LoadOrCreatePlayerProfile();
+                return _playerProfile;
+            }
+        }
+
 
         public async Task Login()
         {
             if (_loginResult != null)
                 throw new InvalidOperationException("PlayFab login was already done!");
 
-            var playerProfile = LoadOrCreatePlayerProfile();
+            _playerProfile = LoadOrCreatePlayerProfile();
             var request = new LoginWithCustomIDRequest
             {
-                CustomId = playerProfile.Id.ToString(),
+                CustomId = _playerProfile.Id.ToString(),
                 CreateAccount = true
             };
             var completionSource = new TaskCompletionSource<LoginResult>();
@@ -110,6 +122,16 @@ namespace Assets.Scripts.OmaWatch
 
             Debug.Log($"Leaderboard for {statisticName} retrieved successfully");
             return result;
+        }
+
+        public void SavePlayerProfile()
+        {
+            if (_playerProfile == null)
+            {
+                _playerProfile = LoadOrCreatePlayerProfile();
+            }
+
+            SavePlayerProfile(_playerProfile);
         }
 
         private PlayerProfile LoadOrCreatePlayerProfile()
