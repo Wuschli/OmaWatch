@@ -21,7 +21,7 @@ namespace Assets.Scripts.UI
 
         public void BackToMenu()
         {
-            UIManager.Instance.Fire(UITrigger.ToMainMenu).FireAndForget();
+            UIManager.Instance.Fire(UITrigger.ToMainMenu);
         }
 
         private async Task StartUp()

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Common.Util;
-using Assets.Scripts.OmaWatch.GamePlay;
+﻿using Assets.Scripts.OmaWatch.GamePlay;
 using UnityEngine;
 
 namespace Assets.Scripts.UI
@@ -8,7 +7,7 @@ namespace Assets.Scripts.UI
     {
         public void BackToMenu()
         {
-            UIManager.Instance.Fire(UITrigger.ToMainMenu).FireAndForget();
+            UIManager.Instance.Fire(UITrigger.ToMainMenu);
         }
 
         public void Continue()

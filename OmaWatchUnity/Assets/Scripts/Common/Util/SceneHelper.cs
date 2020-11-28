@@ -12,6 +12,7 @@ namespace Assets.Scripts.Common.Util
             await Awaiters.NextFrame; // switch to main thread
             Debug.Log($"Loading {sceneName} {mode}");
             var operation = SceneManager.LoadSceneAsync(sceneName, mode);
+            operation.allowSceneActivation = true;
             await operation;
             Debug.Log($"Done loading {sceneName} {mode}");
         }

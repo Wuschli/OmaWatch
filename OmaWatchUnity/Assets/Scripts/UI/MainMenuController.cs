@@ -9,17 +9,21 @@ namespace Assets.Scripts.UI
 {
     public class MainMenuController : MonoBehaviour
     {
+        public Button QuitGameButton;
         public Toggle SkipTutorialToggle;
 
         protected void OnEnable()
         {
             StartUp().FireAndForget();
             SkipTutorialToggle.isOn = LevelCoordinator.Instance.SkipTutorial;
+#if !(UNITY_EDITOR || UNITY_STANDALONE)
+            QuitGameButton.gameObject.SetActive(false);
+#endif
         }
 
         public void StartGame()
         {
-            UIManager.Instance.Fire(UITrigger.StartGame).FireAndForget();
+            UIManager.Instance.Fire(UITrigger.StartGame);
         }
 
         public void ToggleSkipTutorial()

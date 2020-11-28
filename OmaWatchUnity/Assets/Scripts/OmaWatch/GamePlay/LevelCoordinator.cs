@@ -6,6 +6,7 @@ using Assets.Scripts.Messages;
 using Assets.Scripts.OmaWatch.GamePlay.Interactions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 namespace Assets.Scripts.OmaWatch.GamePlay
 {
@@ -71,7 +72,9 @@ namespace Assets.Scripts.OmaWatch.GamePlay
             _currentLevelStopwatch.Stop();
             Score = (int) _currentLevelStopwatch.ElapsedMilliseconds * -1;
             await PlayFabManager.Instance.UpdatePlayerStatistic("High Score", Score);
-            await Task.Delay(2000);
+            Debug.Log("Wait for 2 seconds");
+            await (new WaitForSecondsRealtime(2));
+            Debug.Log("Publish GameWinMessage");
             MessageBus.Instance.Publish(new GameWinMessage());
         }
 
