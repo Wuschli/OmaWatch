@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Common.Util;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
@@ -7,7 +6,7 @@ namespace Assets.Scripts.UI
     {
         public void BackToMenu()
         {
-            UIManager.Instance.Fire(UITrigger.ToMainMenu).FireAndForget();
+            UIManager.Instance.Fire(UITrigger.ToMainMenu);
         }
     }
 }

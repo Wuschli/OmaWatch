@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Assets.Scripts.Common.Util;
 using Assets.Scripts.Messages;
 using Stateless;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.UI
@@ -19,7 +19,6 @@ namespace Assets.Scripts.UI
 
     public enum UITrigger
     {
-        SplashDone,
         StartGame,
         Pause,
         Resume,
@@ -33,9 +32,19 @@ namespace Assets.Scripts.UI
         public UIState DefaultState = UIState.Splash;
         private StateMachine<UIState, UITrigger> _stateMachine;
 
-        public async Task Fire(UITrigger trigger)
+        public void Fire(UITrigger trigger)
         {
-            await _stateMachine.FireAsync(trigger);
+            Debug.Log($"Fire {trigger}");
+            try
+            {
+                _stateMachine.Fire(trigger);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+
+            Debug.Log($"Fire {trigger} done");
         }
 
         protected override void Awake()
@@ -56,112 +65,107 @@ namespace Assets.Scripts.UI
         private void ConfigureStateMachine()
         {
             _stateMachine.Configure(UIState.Splash)
-                .OnEntryAsync(OnEntrySplashAsync)
-                .OnExitAsync(OnExitSplashAsync)
-                .Permit(UITrigger.SplashDone, UIState.MainMenu);
+                .OnEntry(OnEntrySplash)
+                .OnExit(OnExitSplash)
+                .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
 
             _stateMachine.Configure(UIState.MainMenu)
-                .OnEntryAsync(OnEntryMainMenuAsync)
-                .OnExitAsync(OnExitMainMenuAsync)
+                .OnEntry(OnEntryMainMenu)
+                .OnExit(OnExitMainMenu)
                 .Permit(UITrigger.StartGame, UIState.InGame);
 
             _stateMachine.Configure(UIState.InGame)
-                .OnEntryAsync(OnEntryInGameAsync)
-                .OnExitAsync(OnExitInGameAsync)
+                .OnEntry(OnEntryInGame)
+                .OnExit(OnExitInGame)
                 .Permit(UITrigger.Pause, UIState.Pause)
                 .Permit(UITrigger.Lose, UIState.Lose)
                 .Permit(UITrigger.Win, UIState.Win);
 
             _stateMachine.Configure(UIState.Pause)
                 .SubstateOf(UIState.InGame)
-                .OnEntryAsync(OnEntryPauseAsync)
-                .OnExitAsync(OnExitPauseAsync)
+                .OnEntry(OnEntryPause)
+                .OnExit(OnExitPause)
                 .Permit(UITrigger.Resume, UIState.InGame)
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
 
             _stateMachine.Configure(UIState.Lose)
-                .OnEntryAsync(OnEntryLoseAsync)
-                .OnExitAsync(OnExitLoseAsync)
+                .OnEntry(OnEntryLose)
+                .OnExit(OnExitLose)
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
 
             _stateMachine.Configure(UIState.Win)
-                .OnEntryAsync(OnEntryWinAsync)
-                .OnExitAsync(OnExitWinAsync)
+                .OnEntry(OnEntryWin)
+                .OnExit(OnExitWin)
                 .Permit(UITrigger.ToMainMenu, UIState.MainMenu);
         }
 
         private void OnGameWin(GameWinMessage msg)
         {
-            Fire(UITrigger.Win).FireAndForget();
+            Fire(UITrigger.Win);
         }
 
         private void OnGamePaused(GamePauseMessage msg)
         {
             if (msg.IsPaused)
-                Fire(UITrigger.Pause).FireAndForget();
+                Fire(UITrigger.Pause);
             else
-                Fire(UITrigger.Resume).FireAndForget();
+                Fire(UITrigger.Resume);
         }
 
-        private async Task OnEntrySplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntrySplash(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("Splash");
+            SceneHelper.LoadScene("Splash").FireAndForget();
         }
 
-        private Task OnExitSplashAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitSplash(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            return Task.CompletedTask;
         }
 
-        private async Task OnEntryMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntryMainMenu(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("MainMenu");
+            SceneHelper.LoadScene("MainMenu").FireAndForget();
         }
 
-        private Task OnExitMainMenuAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitMainMenu(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            return Task.CompletedTask;
         }
 
-        private async Task OnEntryInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntryInGame(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("level1");
-            await SceneHelper.LoadScene("HUD", LoadSceneMode.Additive);
+            SceneHelper.LoadScene("level1").FireAndForget();
+            SceneHelper.LoadScene("HUD", LoadSceneMode.Additive).FireAndForget();
         }
 
-        private Task OnExitInGameAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitInGame(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            return Task.CompletedTask;
         }
 
-        private async Task OnEntryPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntryPause(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("Pause", LoadSceneMode.Additive);
+            SceneHelper.LoadScene("Pause", LoadSceneMode.Additive).FireAndForget();
         }
 
-        private async Task OnExitPauseAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitPause(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.UnloadScene("Pause").ConfigureAwait(true);
+            SceneHelper.UnloadScene("Pause").FireAndForget();
         }
 
-        private async Task OnEntryLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntryLose(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("Lose");
+            SceneHelper.LoadScene("Lose").FireAndForget();
         }
 
-        private Task OnExitLoseAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitLose(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            return Task.CompletedTask;
         }
 
-        private async Task OnEntryWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnEntryWin(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            await SceneHelper.LoadScene("Win");
+            SceneHelper.LoadScene("Win").FireAndForget();
         }
 
-        private Task OnExitWinAsync(StateMachine<UIState, UITrigger>.Transition transition)
+        private void OnExitWin(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            return Task.CompletedTask;
         }
     }
 }
