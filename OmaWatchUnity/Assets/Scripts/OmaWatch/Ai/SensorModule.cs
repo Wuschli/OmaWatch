@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
 using Assets.Scripts.OmaWatch.Player;
 using UnityEngine;
@@ -52,7 +53,7 @@ namespace Assets.Scripts.OmaWatch.Ai
                 return;
 
 
-            Debug.DrawLine(transform.position, Target.transform.position, Color.red, 10);
+            //Debug.DrawLine(transform.position, Target.transform.position, Color.red, 10);
             Debug.Log("starting chase");
             _agent.SetTask(new ChaseTask(Target));
             _agent.EnqueueTask(new ExhaustedTask(RestTime));
@@ -61,9 +62,13 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public bool CanSeeTarget()
         {
-            var hit = Physics2D.Raycast(transform.position, (Target.transform.position - transform.position).normalized);
+            var distance = Vector3.Distance(transform.position, Target.transform.position);
+            var hit = Physics2D.Raycast(transform.position, (Target.transform.position - transform.position).normalized, distance, LayerMask.GetMask("Walls", "Player"));
 
-            return hit.transform == Target.transform;
+            if (hit.transform == Target.transform)
+                return true;
+
+            return false;
         }
     }
 }

@@ -9,7 +9,8 @@ namespace Assets.Scripts.OmaWatch.World
         public enum FloorType
         {
             Safe,
-            Unsafe
+            Unsafe,
+            Blocked
         }
 
         public FloorType Type;

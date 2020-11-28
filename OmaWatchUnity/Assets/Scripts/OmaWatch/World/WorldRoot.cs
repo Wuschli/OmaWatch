@@ -15,6 +15,7 @@ namespace Assets.Scripts.OmaWatch.World
 
         private Grid _tileGrid;
         private readonly List<WorldNode> _nodes = new List<WorldNode>();
+        private readonly List<Vector3Int> _blocked = new List<Vector3Int>();
 
         private void Awake()
         {
@@ -31,6 +32,22 @@ namespace Assets.Scripts.OmaWatch.World
                     var tile = tilemap.GetTile(pos);
                     if (tile == null)
                         continue;
+                    if (floor.Type == FloorTag.FloorType.Blocked)
+                    {
+                        if (!_blocked.Contains(pos))
+                        {
+                            _blocked.Add(pos);
+                            var blockedNode = _nodes.FirstOrDefault(n => n.Pos == pos);
+                            if (blockedNode != null)
+                            {
+                                blockedNode.UnConnect();
+                                _nodes.Remove(blockedNode);
+                            }
+                        }
+
+                        continue;
+                    }
+
                     if (_nodes.Any(n => n.Pos == pos))
                         continue;
 

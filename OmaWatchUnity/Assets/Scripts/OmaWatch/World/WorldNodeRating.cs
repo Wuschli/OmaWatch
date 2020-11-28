@@ -19,7 +19,7 @@ namespace Assets.Scripts.OmaWatch.World
 
         public void GetPath(ref List<Vector3> path, Grid grid)
         {
-            path.Insert(0, grid.CellToWorld(Node.Pos));
+            path.Insert(0, grid.GetCellCenterWorld(Node.Pos));
             Predecessor?.GetPath(ref path, grid);
         }
     }
