@@ -1,5 +1,4 @@
-﻿using System;
-using GameEventBus.Events;
+﻿using GameEventBus.Events;
 
 namespace GameEventBus.Interfaces
 {

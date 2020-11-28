@@ -1,7 +1,5 @@
-using UnityEditor;
 using UnityEngine;
 using System;
-using System.Reflection;
 
 namespace PlayFab.PfEditor
 {

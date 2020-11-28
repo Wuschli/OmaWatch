@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.OmaWatch;
+﻿using Assets.Scripts.OmaWatch;
 using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;

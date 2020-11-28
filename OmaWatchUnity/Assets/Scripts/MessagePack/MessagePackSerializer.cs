@@ -8,7 +8,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using MessagePack.LZ4;
-using Nerdbank.Streams;
 
 namespace MessagePack
 {

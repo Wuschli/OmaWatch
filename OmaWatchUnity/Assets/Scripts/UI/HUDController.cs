@@ -1,5 +1,4 @@
-﻿using System;
-using Assets.Scripts.OmaWatch.GamePlay;
+﻿using Assets.Scripts.OmaWatch.GamePlay;
 using TMPro;
 using UnityEngine;
 

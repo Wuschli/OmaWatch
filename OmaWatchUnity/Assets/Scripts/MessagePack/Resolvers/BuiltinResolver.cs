@@ -5,11 +5,9 @@ using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using MessagePack.Formatters;
 using MessagePack.Internal;
-using MessagePack.Resolvers;
 
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1509 // Opening braces should not be preceded by blank line

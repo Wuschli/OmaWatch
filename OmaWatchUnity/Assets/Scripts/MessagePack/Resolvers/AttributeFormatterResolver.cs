@@ -3,7 +3,6 @@
 
 using System;
 using System.Linq; // require UNITY_2018_3_OR_NEWER
-using System.Reflection;
 using MessagePack.Formatters;
 
 namespace MessagePack.Resolvers
