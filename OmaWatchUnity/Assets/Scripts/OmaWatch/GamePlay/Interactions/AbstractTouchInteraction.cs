@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Common.Util;
+using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
 {
@@ -21,7 +22,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             var playerController = other.gameObject.GetComponent<AbstractPlayerController>();
             if (playerController == null)
                 return;
-            InteractAsync(playerController);
+            InteractAsync(playerController).FireAndForget();
         }
     }
 }

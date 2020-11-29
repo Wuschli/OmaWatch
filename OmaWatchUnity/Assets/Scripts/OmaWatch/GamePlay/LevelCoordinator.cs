@@ -13,7 +13,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
         private const string TutorialSceneName = "Tutorial";
         private readonly Stopwatch _currentLevelStopwatch = new Stopwatch();
         private bool _paused;
-        private bool _tutorialRunning;
+        private bool _pauseBlocked;
 
         public RocketConstructionSite ConstructionSite { get; set; }
 
@@ -50,6 +50,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
         public int Score { get; private set; }
         public int CurrentScore => (int) -_currentLevelStopwatch.ElapsedMilliseconds;
         public TutorialController TutorialController { get; set; }
+        public VictoryController VictoryController { get; set; }
 
         public bool CheckWinningCondition()
         {
@@ -71,7 +72,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private void Pause()
         {
-            if (_tutorialRunning)
+            if (_pauseBlocked)
                 return;
             _paused = true;
             Time.timeScale = 0;
@@ -81,7 +82,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private void Resume()
         {
-            if (_tutorialRunning)
+            if (_pauseBlocked)
                 return;
             _paused = false;
             Time.timeScale = 1;
@@ -91,13 +92,15 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private async Task StartWinningSequence()
         {
+            _pauseBlocked = true;
             Time.timeScale = 0;
             _currentLevelStopwatch.Stop();
             Score = (int) _currentLevelStopwatch.ElapsedMilliseconds * -1;
             await PlayFabManager.Instance.UpdatePlayerStatistic("High Score", Score);
-            Debug.Log("Wait for 2 seconds");
-            await (new WaitForSecondsRealtime(2));
+            Debug.Log("Play victory animation");
+            await VictoryController.Run();
             Debug.Log("Publish GameWinMessage");
+            _pauseBlocked = false;
             MessageBus.Instance.Publish(new GameWinMessage());
         }
 
@@ -114,12 +117,12 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private async Task RunTutorial()
         {
-            _tutorialRunning = true;
+            _pauseBlocked = true;
             Time.timeScale = 0;
             await Awaiters.NextFrame;
             await TutorialController.Run();
             Time.timeScale = 1;
-            _tutorialRunning = false;
+            _pauseBlocked = false;
         }
     }
 }

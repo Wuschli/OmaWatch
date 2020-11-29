@@ -9,6 +9,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
     {
         public RocketConfig Config;
         public CinemachineVirtualCamera VirtualCamera;
+        public Transform SlotsRoot;
 
         private RocketConstructionSiteSlot[] _slots;
 
@@ -45,6 +46,14 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             return anyPieceAdded;
         }
 
+        public void RocketLaunch()
+        {
+            foreach (var slot in _slots)
+            {
+                slot.SortingOrder += 10;
+            }
+        }
+
         private void UpdateSlotPositions()
         {
             var previousHeight = 0f;
@@ -64,7 +73,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
         private RocketConstructionSiteSlot CreateSlotForConfigElement(RocketConfig.RocketConfigElement e, int layerOrder = 0)
         {
             var go = new GameObject("Slot");
-            go.transform.SetParent(transform, false);
+            go.transform.SetParent(SlotsRoot, false);
             var slot = go.AddComponent<RocketConstructionSiteSlot>();
             slot.ElementConfig = e;
             slot.SortingOrder = layerOrder;

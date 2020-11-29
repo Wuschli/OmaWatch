@@ -21,7 +21,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
         }
 
         public RocketConfig.RocketConfigElement ElementConfig { get; set; }
-        public Vector2 Size => _config.Size;
+        public Vector2 Size => _config != null ? _config.Size : Vector2.zero;
 
         public int SortingOrder
         {
