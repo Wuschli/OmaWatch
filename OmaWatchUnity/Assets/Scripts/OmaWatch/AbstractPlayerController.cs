@@ -45,7 +45,7 @@ namespace Assets.Scripts.OmaWatch
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (context.performed)
-                Interact();
+                Interact().FireAndForget();
         }
 
         public void OnLook(InputAction.CallbackContext context)
@@ -74,10 +74,10 @@ namespace Assets.Scripts.OmaWatch
             possibleInteraction.InputIconView.ShowAction(null);
             UpdatePossibleInteractions();
         }
-        
+
         public virtual void SetGrabbed(bool grabbed)
         {
-            if(grabbed)
+            if (grabbed)
                 _defaultInput.Player.Disable();
             else
                 _defaultInput.Player.Enable();

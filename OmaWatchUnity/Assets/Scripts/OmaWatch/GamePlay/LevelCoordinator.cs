@@ -13,6 +13,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
         private const string TutorialSceneName = "Tutorial";
         private readonly Stopwatch _currentLevelStopwatch = new Stopwatch();
         private bool _paused;
+        private bool _tutorialRunning;
 
         public RocketConstructionSite ConstructionSite { get; set; }
 
@@ -22,6 +23,26 @@ namespace Assets.Scripts.OmaWatch.GamePlay
             set
             {
                 PlayFabManager.Instance.Profile.SkipTutorial = value;
+                PlayFabManager.Instance.SavePlayerProfile();
+            }
+        }
+
+        public float MusicVolume
+        {
+            get => PlayFabManager.Instance.Profile.MusicVolume;
+            set
+            {
+                PlayFabManager.Instance.Profile.MusicVolume = value;
+                PlayFabManager.Instance.SavePlayerProfile();
+            }
+        }
+
+        public float SFXVolume
+        {
+            get => PlayFabManager.Instance.Profile.SFXVolume;
+            set
+            {
+                PlayFabManager.Instance.Profile.SFXVolume = value;
                 PlayFabManager.Instance.SavePlayerProfile();
             }
         }
@@ -50,6 +71,8 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private void Pause()
         {
+            if (_tutorialRunning)
+                return;
             _paused = true;
             Time.timeScale = 0;
             _currentLevelStopwatch.Stop();
@@ -58,6 +81,8 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private void Resume()
         {
+            if (_tutorialRunning)
+                return;
             _paused = false;
             Time.timeScale = 1;
             _currentLevelStopwatch.Start();
@@ -80,6 +105,7 @@ namespace Assets.Scripts.OmaWatch.GamePlay
         {
             if (!SkipTutorial)
             {
+                _currentLevelStopwatch.Reset();
                 await RunTutorial();
             }
 
@@ -88,10 +114,12 @@ namespace Assets.Scripts.OmaWatch.GamePlay
 
         private async Task RunTutorial()
         {
+            _tutorialRunning = true;
             Time.timeScale = 0;
             await Awaiters.NextFrame;
             await TutorialController.Run();
             Time.timeScale = 1;
+            _tutorialRunning = false;
         }
     }
 }
