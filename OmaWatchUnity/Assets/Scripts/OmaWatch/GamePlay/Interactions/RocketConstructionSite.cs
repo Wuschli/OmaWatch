@@ -27,18 +27,22 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
             LevelCoordinator.Instance.ConstructionSite = this;
         }
 
-        protected override async Task InteractAsync(AbstractPlayerController player)
+        public override async Task<bool> InteractAsync(AbstractPlayerController player)
         {
+            var anyPieceAdded = false;
             while (CanAddScrap(player.ScrapTrail.NextScrapPiece))
             {
+                anyPieceAdded = true;
                 var config = player.ScrapTrail.TakeScrap();
                 var slot = _slots.First(s => s.Config == null);
                 slot.Config = config;
                 UpdateSlotPositions();
                 if (LevelCoordinator.Instance.CheckWinningCondition())
-                    return;
+                    return true;
                 await Task.Yield();
             }
+
+            return anyPieceAdded;
         }
 
         private void UpdateSlotPositions()

@@ -18,8 +18,7 @@ namespace Assets.Scripts.UI
             var inputActionMap = inputActions.Player.Get();
             foreach (var action in inputActionMap.actions)
             {
-                var iconString = string.Join("", action.GetIconNames().Select(s => $"<sprite name=\"{s}\">"));
-                tmpText.text = tmpText.text.Replace($"[{action.name}]", iconString);
+                tmpText.text = tmpText.text.Replace($"[{action.name}]", action.GetRichTextIconString());
             }
         }
     }

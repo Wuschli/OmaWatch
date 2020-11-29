@@ -30,7 +30,6 @@ namespace Assets.Scripts.OmaWatch
             }
         }
 
-
         public async Task Login()
         {
             if (_loginResult != null)
@@ -60,6 +59,14 @@ namespace Assets.Scripts.OmaWatch
 
             Debug.Log($"Login successful: {loginResult.PlayFabId}");
             _loginResult = loginResult;
+        }
+
+        public async Task<string> GetLocalAccountDisplayName()
+        {
+            if (!IsLoggedIn)
+                await Login();
+            var accountInfoResult = await GetAccountInfo(_loginResult.PlayFabId);
+            return accountInfoResult?.AccountInfo.TitleInfo.DisplayName;
         }
 
         public async Task UpdatePlayerStatistic(string statisticName, int value)
@@ -124,6 +131,33 @@ namespace Assets.Scripts.OmaWatch
             return result;
         }
 
+        public async Task<GetAccountInfoResult> GetAccountInfo(string playFabId)
+        {
+            if (_loginResult == null)
+                throw new InvalidOperationException("PlayFab is not logged in!");
+
+            var request = new GetAccountInfoRequest {PlayFabId = playFabId};
+            var completionSource = new TaskCompletionSource<GetAccountInfoResult>();
+            PlayFabError error = null;
+
+            PlayFabClientAPI.GetAccountInfo(request, completionSource.SetResult, e =>
+            {
+                error = e;
+                completionSource.SetResult(null);
+            });
+
+            var result = await completionSource.Task;
+
+            if (error != null)
+            {
+                Debug.LogError(error.GenerateErrorReport());
+                return null;
+            }
+
+            Debug.Log($"AccountInfo for {playFabId} retrieved successfully");
+            return result;
+        }
+
         public void SavePlayerProfile()
         {
             if (_playerProfile == null)
@@ -132,6 +166,28 @@ namespace Assets.Scripts.OmaWatch
             }
 
             SavePlayerProfile(_playerProfile);
+        }
+
+        public async Task SetDisplayName(string displayName)
+        {
+            var request = new UpdateUserTitleDisplayNameRequest {DisplayName = displayName};
+            var completionSource = new TaskCompletionSource<UpdateUserTitleDisplayNameResult>();
+            PlayFabError error = null;
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request, completionSource.SetResult, e =>
+            {
+                error = e;
+                completionSource.SetResult(null);
+            });
+
+            var result = await completionSource.Task;
+
+            if (error != null)
+            {
+                Debug.LogError(error.GenerateErrorReport());
+                return;
+            }
+
+            Debug.Log($"Display name set to {displayName} successfully");
         }
 
         private PlayerProfile LoadOrCreatePlayerProfile()

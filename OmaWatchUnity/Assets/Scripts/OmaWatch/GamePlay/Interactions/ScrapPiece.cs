@@ -36,7 +36,6 @@ namespace Assets.Scripts.OmaWatch.GamePlay.Interactions
                 return false;
 
             await Task.Yield();
-            Debug.Log("SCRAP!");
             if (player.ScrapTrail != null)
                 return player.ScrapTrail.TryAddElement(_config);
             return false;
