@@ -4,67 +4,21 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | OmaWatch</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
   </head>
-  <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">OmaWatch</div>
-      </div>
-    </div>
+  <body style="text-align: center">
+    <canvas id="unity-canvas" style="width: 1600px; height: 900px; background: #231F20"></canvas>
+    <script src="Build/bfad608fd8abde910e729df5009df358.js"></script>
     <script>
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/bin.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/bin.data.gz",
-        frameworkUrl: buildUrl + "/bin.framework.js.gz",
-        codeUrl: buildUrl + "/bin.wasm.gz",
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/d83a91a108d93c73d8a65f1c1669dc18.unityweb",
+        frameworkUrl: "Build/b72f06819469c41c740addf0f1deddf2.unityweb",
+        codeUrl: "Build/f8cb9172e8555d52203e43e1b143f05e.unityweb",
+        symbolsUrl: "Build/98823d7876f25faab82087c5dabc07d9.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Taco Treehouse",
         productName: "OmaWatch",
-        productVersion: "0.1",
-      };
-
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        container.className = "unity-mobile";
-        config.devicePixelRatio = 1;
-      } else {
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
-      }
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
-        });
-      };
-      document.body.appendChild(script);
+        productVersion: "1.0.0",
+      });
     </script>
   </body>
 </html>
