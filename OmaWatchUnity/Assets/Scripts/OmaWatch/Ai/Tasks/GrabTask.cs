@@ -11,12 +11,14 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
     {
         private readonly GameObject _subject;
         private readonly Transform _releaseTarget;
+        private readonly Transform _followTransform;
         private readonly CancellationTokenSource _token;
 
-        public GrabTask(GameObject subject, Transform releaseReleaseTarget)
+        public GrabTask(GameObject subject, Transform releasePosition, Transform followTransform)
         {
             _subject = subject;
-            _releaseTarget = releaseReleaseTarget;
+            _releaseTarget = releasePosition;
+            _followTransform = followTransform;
             _token = new CancellationTokenSource();
         }
 
@@ -29,7 +31,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
                 SetPlayerGrabbed(true);
                 _subject.GetComponentInChildren<ScrapTrail>()?.DropAll();
 
-                _subject.transform.parent = agent.transform;    //TODO: specify grab transform
+                _subject.transform.parent = _followTransform;
                 _subject.transform.localPosition = Vector3.zero;
 
                 await agent.ExecuteCommand(new MoveToPositionCommand(_releaseTarget, _token.Token));
@@ -60,7 +62,7 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         {
             var player = _subject.GetComponent<AbstractPlayerController>();
             if (player != null)
-                player.enabled = !grabbed;
+                player.SetGrabbed(grabbed);
 
             var susp = _subject.GetComponent<SuspiciousBehaviour>();
             if (susp)

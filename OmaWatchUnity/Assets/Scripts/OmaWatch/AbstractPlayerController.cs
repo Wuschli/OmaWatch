@@ -56,6 +56,14 @@ namespace Assets.Scripts.OmaWatch
             LevelCoordinator.Instance.TogglePause();
         }
 
+        public virtual void SetGrabbed(bool grabbed)
+        {
+            if(grabbed)
+                _defaultInput.Player.Disable();
+            else
+                _defaultInput.Player.Enable();
+        }
+
         protected virtual void Awake()
         {
             _defaultInput = new DefaultInputActions();
