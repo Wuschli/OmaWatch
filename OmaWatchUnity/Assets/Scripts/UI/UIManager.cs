@@ -132,7 +132,7 @@ namespace Assets.Scripts.UI
 
         private void OnEntryInGame(StateMachine<UIState, UITrigger>.Transition transition)
         {
-            SceneHelper.LoadScene("level1").FireAndForget();
+            SceneHelper.LoadScene("level2").FireAndForget();
             SceneHelper.LoadScene("HUD", LoadSceneMode.Additive).FireAndForget();
         }
 
