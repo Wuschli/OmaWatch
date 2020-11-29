@@ -113,6 +113,10 @@ namespace MessagePack.Formatters.Assets.Scripts.OmaWatch
         private static global::System.ReadOnlySpan<byte> GetSpan_Id() => new byte[1 + 2] { 162, 73, 100 };
         // SkipTutorial
         private static global::System.ReadOnlySpan<byte> GetSpan_SkipTutorial() => new byte[1 + 12] { 172, 83, 107, 105, 112, 84, 117, 116, 111, 114, 105, 97, 108 };
+        // MusicVolume
+        private static global::System.ReadOnlySpan<byte> GetSpan_MusicVolume() => new byte[1 + 11] { 171, 77, 117, 115, 105, 99, 86, 111, 108, 117, 109, 101 };
+        // SFXVolume
+        private static global::System.ReadOnlySpan<byte> GetSpan_SFXVolume() => new byte[1 + 9] { 169, 83, 70, 88, 86, 111, 108, 117, 109, 101 };
 
         public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::Assets.Scripts.OmaWatch.PlayerProfile value, global::MessagePack.MessagePackSerializerOptions options)
         {
@@ -123,11 +127,15 @@ namespace MessagePack.Formatters.Assets.Scripts.OmaWatch
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteMapHeader(2);
+            writer.WriteMapHeader(4);
             writer.WriteRaw(GetSpan_Id());
             formatterResolver.GetFormatterWithVerify<global::System.Guid>().Serialize(ref writer, value.Id, options);
             writer.WriteRaw(GetSpan_SkipTutorial());
             writer.Write(value.SkipTutorial);
+            writer.WriteRaw(GetSpan_MusicVolume());
+            writer.Write(value.MusicVolume);
+            writer.WriteRaw(GetSpan_SFXVolume());
+            writer.Write(value.SFXVolume);
         }
 
         public global::Assets.Scripts.OmaWatch.PlayerProfile Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -142,6 +150,8 @@ namespace MessagePack.Formatters.Assets.Scripts.OmaWatch
             var length = reader.ReadMapHeader();
             var __Id__ = default(global::System.Guid);
             var __SkipTutorial__ = default(bool);
+            var __MusicVolume__ = default(float);
+            var __SFXVolume__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -162,6 +172,16 @@ namespace MessagePack.Formatters.Assets.Scripts.OmaWatch
 
                         __SkipTutorial__ = reader.ReadBoolean();
                         continue;
+                    case 11:
+                        if (!global::System.MemoryExtensions.SequenceEqual(stringKey, GetSpan_MusicVolume().Slice(1))) { goto FAIL; }
+
+                        __MusicVolume__ = reader.ReadSingle();
+                        continue;
+                    case 9:
+                        if (!global::System.MemoryExtensions.SequenceEqual(stringKey, GetSpan_SFXVolume().Slice(1))) { goto FAIL; }
+
+                        __SFXVolume__ = reader.ReadSingle();
+                        continue;
 
                 }
             }
@@ -170,6 +190,8 @@ namespace MessagePack.Formatters.Assets.Scripts.OmaWatch
             {
                 Id = __Id__,
                 SkipTutorial = __SkipTutorial__,
+                MusicVolume = __MusicVolume__,
+                SFXVolume = __SFXVolume__,
             };
 
             reader.Depth--;

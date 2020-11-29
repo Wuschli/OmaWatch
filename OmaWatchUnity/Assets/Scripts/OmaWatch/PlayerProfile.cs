@@ -8,5 +8,7 @@ namespace Assets.Scripts.OmaWatch
     {
         public Guid Id { get; set; }
         public bool SkipTutorial { get; set; }
+        public float MusicVolume { get; set; }
+        public float SFXVolume { get; set; }
     }
 }

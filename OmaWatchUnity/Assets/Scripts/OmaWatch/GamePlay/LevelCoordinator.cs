@@ -26,6 +26,26 @@ namespace Assets.Scripts.OmaWatch.GamePlay
             }
         }
 
+        public float MusicVolume
+        {
+            get => PlayFabManager.Instance.Profile.MusicVolume;
+            set
+            {
+                PlayFabManager.Instance.Profile.MusicVolume = value;
+                PlayFabManager.Instance.SavePlayerProfile();
+            }
+        }
+
+        public float SFXVolume
+        {
+            get => PlayFabManager.Instance.Profile.SFXVolume;
+            set
+            {
+                PlayFabManager.Instance.Profile.SFXVolume = value;
+                PlayFabManager.Instance.SavePlayerProfile();
+            }
+        }
+
         public int Score { get; private set; }
         public int CurrentScore => (int) -_currentLevelStopwatch.ElapsedMilliseconds;
         public TutorialController TutorialController { get; set; }

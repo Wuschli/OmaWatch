@@ -11,11 +11,12 @@ namespace Assets.Scripts.UI
     {
         public Button QuitGameButton;
         public Toggle SkipTutorialToggle;
+        public Slider MusicVolumeSlider;
+        public Slider SFXVolumeSlider;
 
         protected void OnEnable()
         {
             StartUp().FireAndForget();
-            SkipTutorialToggle.isOn = LevelCoordinator.Instance.SkipTutorial;
 #if !(UNITY_EDITOR || UNITY_STANDALONE)
             QuitGameButton.gameObject.SetActive(false);
 #endif
@@ -42,8 +43,19 @@ namespace Assets.Scripts.UI
 
         private async Task StartUp()
         {
+            SkipTutorialToggle.interactable = false;
+            MusicVolumeSlider.interactable = false;
+            SFXVolumeSlider.interactable = false;
+
             if (!PlayFabManager.Instance.IsLoggedIn)
                 await PlayFabManager.Instance.Login();
+            SkipTutorialToggle.isOn = LevelCoordinator.Instance.SkipTutorial;
+            MusicVolumeSlider.value = LevelCoordinator.Instance.MusicVolume;
+            SFXVolumeSlider.value = LevelCoordinator.Instance.SFXVolume;
+
+            SkipTutorialToggle.interactable = true;
+            MusicVolumeSlider.interactable = true;
+            SFXVolumeSlider.interactable = true;
         }
     }
 }
