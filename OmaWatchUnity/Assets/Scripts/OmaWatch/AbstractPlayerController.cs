@@ -78,9 +78,15 @@ namespace Assets.Scripts.OmaWatch
         public virtual void SetGrabbed(bool grabbed)
         {
             if (grabbed)
+            {
                 _defaultInput.Player.Disable();
+                _moveInput = Vector2.zero;
+                _lookInput = Vector2.zero;
+            }
             else
+            {
                 _defaultInput.Player.Enable();
+            }
         }
 
         protected virtual void Awake()
