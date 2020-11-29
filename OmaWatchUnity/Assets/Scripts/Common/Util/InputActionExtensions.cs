@@ -12,5 +12,10 @@ namespace Assets.Scripts.Common.Util
                 return new[] {action.activeControl.path};
             return action.controls.Select(c => c?.path);
         }
+
+        public static string GetRichTextIconString(this InputAction action)
+        {
+            return string.Join("", action.GetIconNames().Select(s => $" <sprite name=\"{s}\">"));
+        }
     }
 }

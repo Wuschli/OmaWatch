@@ -1,5 +1,10 @@
-﻿using Assets.Scripts.OmaWatch.Ai;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Assets.Scripts.Common.Util;
+using Assets.Scripts.OmaWatch.Ai;
 using Assets.Scripts.OmaWatch.GamePlay;
+using Assets.Scripts.OmaWatch.GamePlay.Interactions;
 using Assets.Scripts.OmaWatch.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +23,7 @@ namespace Assets.Scripts.OmaWatch
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private Vector2 _lastDirection;
+        private List<AbstractButtonInteraction> _possibleInteractions = new List<AbstractButtonInteraction>();
 
         protected Vector2 MoveInput => _moveInput;
         protected Vector2 LookInput => _lookInput;
@@ -56,6 +62,19 @@ namespace Assets.Scripts.OmaWatch
             LevelCoordinator.Instance.TogglePause();
         }
 
+        public virtual void AddPossibleInteraction(AbstractButtonInteraction possibleInteraction)
+        {
+            _possibleInteractions.Add(possibleInteraction);
+            UpdatePossibleInteractions();
+        }
+
+        public virtual void RemovePossibleInteraction(AbstractButtonInteraction possibleInteraction)
+        {
+            _possibleInteractions.Remove(possibleInteraction);
+            possibleInteraction.InputIconView.ShowAction(null);
+            UpdatePossibleInteractions();
+        }
+
         protected virtual void Awake()
         {
             _defaultInput = new DefaultInputActions();
@@ -92,15 +111,39 @@ namespace Assets.Scripts.OmaWatch
             Animator.SetFloat("AbsoluteSpeed", MoveInput.magnitude);
             Animator.SetFloat("Horizontal", _lastDirection.x);
             Animator.SetFloat("Vertical", _lastDirection.y);
+
+            UpdatePossibleInteractions();
         }
 
         protected virtual void FixedUpdate()
         {
         }
 
-        protected virtual void Interact()
+        protected virtual async Task Interact()
         {
-            throw new System.NotImplementedException();
+            var nextInteraction = _possibleInteractions.FirstOrDefault();
+            if (nextInteraction == null)
+                return;
+            var couldInteract = await nextInteraction.InteractAsync(this);
+            if (couldInteract)
+                RemovePossibleInteraction(nextInteraction);
+        }
+
+        protected virtual void UpdatePossibleInteractions()
+        {
+            _possibleInteractions = _possibleInteractions
+                .Distinct()
+                .OrderBy(i => (transform.position - i.transform.position).magnitude)
+                .ToList();
+            if (!_possibleInteractions.Any())
+                return;
+            for (var i = 0; i < _possibleInteractions.Count; i++)
+            {
+                if (i == 0)
+                    _possibleInteractions[i].InputIconView.ShowAction(_defaultInput.Player.Interact);
+                else
+                    _possibleInteractions[i].InputIconView.ShowAction(null);
+            }
         }
     }
 }

@@ -47,3 +47,6 @@ TagManager:
   - name: Paintings
     uniqueID: 2840049185
     locked: 0
+  - name: UI
+    uniqueID: 4176269387
+    locked: 0

@@ -123,8 +123,6 @@ namespace Assets.Scripts.OmaWatch.Ai
                 _lastDirection = traveledVector.normalized;
             _lastPosition = transform.position;
 
-            Debug.Log(traveledVector);
-
             Animator.SetFloat("AbsoluteSpeed", traveledVector.magnitude);
             Animator.SetFloat("Horizontal", _lastDirection.x);
             Animator.SetFloat("Vertical", _lastDirection.y);
