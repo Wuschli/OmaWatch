@@ -10,6 +10,7 @@ namespace Assets.Scripts.OmaWatch.Ai
     {
         private AgentBehaviour _agent;
 
+        public Transform FollowTransform;
 
         [FormerlySerializedAs("releasePosition")]
         public Transform ReleasePosition;
@@ -26,6 +27,8 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         private void Update()
         {
+            UpdateGrabbed();
+
             if (_agent.CurrentState != AgentBehaviour.AgentState.Chase)
                 return;
 
@@ -35,7 +38,17 @@ namespace Assets.Scripts.OmaWatch.Ai
             if(Vector3.Distance(transform.position, GrabTarget.transform.position) > GrabDistance)
                 return;
 
-            _agent.SetTask(new GrabTask(GrabTarget.gameObject, ReleasePosition));
+            _agent.SetTask(new GrabTask(GrabTarget.gameObject, ReleasePosition, FollowTransform));
         }
+
+        private void UpdateGrabbed()
+        {
+            if (FollowTransform.childCount == 0)
+                return;
+
+            foreach (Transform child in FollowTransform)
+                child.localPosition = Vector3.zero;
+        }
+
     }
 }

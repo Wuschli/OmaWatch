@@ -74,6 +74,14 @@ namespace Assets.Scripts.OmaWatch
             possibleInteraction.InputIconView.ShowAction(null);
             UpdatePossibleInteractions();
         }
+        
+        public virtual void SetGrabbed(bool grabbed)
+        {
+            if(grabbed)
+                _defaultInput.Player.Disable();
+            else
+                _defaultInput.Player.Enable();
+        }
 
         protected virtual void Awake()
         {
