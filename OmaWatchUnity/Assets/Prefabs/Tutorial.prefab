@@ -911,6 +911,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1693006416996779620, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
+      propertyPath: m_text
+      value: Welcome to Granny's Great Escape!
+      objectReference: {fileID: 0}
     - target: {fileID: 2972650822360598640, guid: 14c0d6d2a26d62f479e8d1e9db9657d3, type: 3}
       propertyPath: m_Name
       value: Text_01
