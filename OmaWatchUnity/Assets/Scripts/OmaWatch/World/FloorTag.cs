@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.OmaWatch.World
@@ -7,6 +6,14 @@ namespace Assets.Scripts.OmaWatch.World
     [RequireComponent(typeof(Tilemap))]
     public class FloorTag : MonoBehaviour
     {
+        public enum FloorType
+        {
+            Safe,
+            Unsafe,
+            Blocked
+        }
+
+        public FloorType Type;
         public Tilemap Tilemap => GetComponent<Tilemap>();
     }
 }

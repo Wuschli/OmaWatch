@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.OmaWatch.World
 {
@@ -16,12 +11,14 @@ namespace Assets.Scripts.OmaWatch.World
 
         private Grid _tileGrid;
         private readonly List<WorldNode> _nodes = new List<WorldNode>();
+        private readonly List<Vector3Int> _blocked = new List<Vector3Int>();
 
         private void Awake()
         {
             Instance = this;
 
             _tileGrid = GetComponent<Grid>();
+
 
             foreach (var floor in GetComponentsInChildren<FloorTag>())
             {
@@ -31,10 +28,28 @@ namespace Assets.Scripts.OmaWatch.World
                     var tile = tilemap.GetTile(pos);
                     if (tile == null)
                         continue;
+                    if (floor.Type == FloorTag.FloorType.Blocked)
+                    {
+                        if (!_blocked.Contains(pos))
+                        {
+                            _blocked.Add(pos);
+                            var blockedNode = _nodes.FirstOrDefault(n => n.Pos == pos);
+                            if (blockedNode != null)
+                            {
+                                blockedNode.UnConnect();
+                                _nodes.Remove(blockedNode);
+                            }
+                        }
 
-                    var node = new WorldNode(pos);
+                        continue;
+                    }
+
+                    if (_nodes.Any(n => n.Pos == pos))
+                        continue;
+
+                    var node = new WorldNode(pos, floor);
+
                     _nodes.Add(node);
-
                     TryAddConnectionNode(pos + Vector3Int.left, node);
                     TryAddConnectionNode(pos + Vector3Int.right, node);
                     TryAddConnectionNode(pos + Vector3Int.up, node);
@@ -55,6 +70,15 @@ namespace Assets.Scripts.OmaWatch.World
             connection?.AddConnection(node);
         }
 
+        public bool IsTileSafe(Vector3 worldPos)
+        {
+            var tilePos = GetTilePos(ClampToTile(worldPos));
+            var node = _nodes.FirstOrDefault(n => n.Pos == tilePos);
+            if (node == null || node.Tag.Type == FloorTag.FloorType.Safe)
+                return true;
+            return false;
+        }
+
         public Vector3Int GetTilePos(Vector3 pos)
         {
             return _tileGrid.WorldToCell(pos);
@@ -63,6 +87,11 @@ namespace Assets.Scripts.OmaWatch.World
         public Vector3 ClampToTile(Vector3 pos)
         {
             return _tileGrid.GetCellCenterWorld(GetTilePos(pos));
+        }
+
+        public Vector3 GetTileWorldPos(Vector3Int tile)
+        {
+            return _tileGrid.CellToWorld(tile);
         }
 
         public List<Vector3> GetPath(Vector3 from, Vector3 to)

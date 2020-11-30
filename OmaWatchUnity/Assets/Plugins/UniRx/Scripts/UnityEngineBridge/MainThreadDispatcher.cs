@@ -4,10 +4,8 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 using System.Reflection;
-using System.Threading;
 using UniRx.InternalUtil;
 using UnityEngine;
 

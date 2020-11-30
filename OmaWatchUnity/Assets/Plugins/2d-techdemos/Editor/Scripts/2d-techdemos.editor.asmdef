@@ -1,0 +1,18 @@
+{
+    "name": "2d-techdemos.editor",
+    "references": [
+        "GUID:38c47398593960b4f91138dfa8664fab",
+        "GUID:3a9781db4804a9945b9883f3a7c46d45"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

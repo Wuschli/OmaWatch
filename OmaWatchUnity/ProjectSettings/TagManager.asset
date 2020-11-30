@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Walls
+  - Player
   - 
   - 
   - 
@@ -43,4 +43,10 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Paintings
+    uniqueID: 2840049185
+    locked: 0
+  - name: UI
+    uniqueID: 4176269387
     locked: 0

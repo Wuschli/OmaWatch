@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Assets.Scripts.OmaWatch.Ai.Commands;
 using Assets.Scripts.OmaWatch.Ai.Tasks;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {
@@ -19,7 +17,7 @@ namespace Assets.Scripts.OmaWatch.Ai
         }
 
         public AbstractWorldTask defaultTask;
-        public SpriteRenderer chaseIndicator;
+        public GameObject chaseIndicator;
 
         private readonly Queue<ITask> _taskQueue = new Queue<ITask>();
         public ITask CurrentTask { get; private set; }
@@ -27,7 +25,10 @@ namespace Assets.Scripts.OmaWatch.Ai
 
         public TileNavMovementController Nav => GetComponent<TileNavMovementController>();
 
-        
+        private void Awake()
+        {
+            Nav.Speed = 0.5f;
+        }
 
         public void Update()
         {
@@ -60,8 +61,8 @@ namespace Assets.Scripts.OmaWatch.Ai
             switch (CurrentState)
             {
                 case AgentState.Chase:
-                    chaseIndicator.enabled = false;
-                    Nav.Speed = 1f;
+                    chaseIndicator.SetActive(false);
+                    Nav.Speed = 0.5f;
                     break;
             }
 
@@ -70,8 +71,8 @@ namespace Assets.Scripts.OmaWatch.Ai
             switch (CurrentState)
             {
                 case AgentState.Chase:
-                    chaseIndicator.enabled = true;
-                    Nav.Speed = 1.1f;
+                    chaseIndicator.SetActive(true);
+                    Nav.Speed = 1f;
                     break;
             }
         }

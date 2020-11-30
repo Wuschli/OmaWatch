@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | OmaWatch</title>
+  </head>
+  <body style="text-align: center">
+    <canvas id="unity-canvas" style="width: 1600px; height: 900px; background: #231F20"></canvas>
+    <script src="Build/bfad608fd8abde910e729df5009df358.js"></script>
+    <script>
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/4b6ab315ab5d054c318918aef478ff22.unityweb",
+        frameworkUrl: "Build/94f815895572061d1818a169cd5cb6de.unityweb",
+        codeUrl: "Build/39792d7a0b4e8a50ea5ba7247e94ec1d.unityweb",
+        symbolsUrl: "Build/386420b56e83e865bc5f0496810ab321.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Taco Treehouse",
+        productName: "OmaWatch",
+        productVersion: "1.0.0",
+      });
+    </script>
+  </body>
+</html>

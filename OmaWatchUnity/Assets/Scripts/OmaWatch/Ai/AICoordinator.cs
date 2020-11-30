@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.OmaWatch.Player;
-using Assets.Scripts.OmaWatch.Util;
+﻿using Assets.Scripts.Common.Util;
+using Assets.Scripts.OmaWatch.Player;
 
 namespace Assets.Scripts.OmaWatch.Ai
 {

@@ -25,7 +25,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""type"": ""Value"",
                     ""id"": ""76728ca6-13ce-465f-89fa-ee273c324e1c"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -37,11 +37,27 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""db9e9985-1c03-48bd-923a-75ab1e118db5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""cce34d89-4067-4250-a4c4-9195973c49f1"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f125b61-c498-4da0-a644-fb385dbbac2f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
                     ""interactions"": """"
                 }
             ],
@@ -51,7 +67,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""2d697e88-449f-4fd6-8db7-4e61a6805e20"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
@@ -113,61 +129,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrows"",
-                    ""id"": ""0c62d895-4317-403a-9b32-0dc1204a729d"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""713c76a5-69f9-41e5-b490-a99f95ae0158"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""74cb498b-881e-4855-ab5a-37581631a335"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""771e0d0f-545b-467f-98e0-18d51d5291f7"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""a9af0f7c-188c-45a7-aa2e-021cfa01529e"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""9e25b4c7-2f28-47c5-82b7-56de98a9c8b3"",
                     ""path"": ""<Gamepad>/buttonEast"",
@@ -181,7 +142,7 @@ namespace Assets.Scripts.OmaWatch.Input
                 {
                     ""name"": """",
                     ""id"": ""e4697651-24e8-4fe6-8d0a-97261d6e85a3"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Default"",
@@ -194,7 +155,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""id"": ""94508bfd-ecf9-4248-bf60-9a8464df0cd6"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Default"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -208,6 +169,50 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""processors"": ""AbsoluteToRelativePointerPosition,OffsetVector2(X=-0.5,Y=-0.5),ScaleVector2(x=2,y=2)"",
                     ""groups"": ""Default"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58ad2156-13c8-4a47-ab07-eadae390afb4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a52fe6af-b595-437a-98a7-dd919460f7d4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c69f8bcb-9771-40a2-ad1e-a12c8434f7b3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c777cee6-c545-45f9-8e0c-6877a088af0c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -253,7 +258,7 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""name"": ""Scroll Wheel"",
                     ""type"": ""Value"",
                     ""id"": ""d417e51f-4f04-4abc-b6d5-d84091018897"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -296,14 +301,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""09818ef2-28ae-4e93-9623-bde85033d4e5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -342,8 +339,8 @@ namespace Assets.Scripts.OmaWatch.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f6ab72e3-b620-4068-b098-ba68cd6ef20e"",
-                    ""path"": ""<Mouse>/scroll/y"",
+                    ""id"": ""b9f275b8-4e69-44bd-82c4-36bb1b0fd106"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Default"",
@@ -515,28 +512,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     ""action"": ""Point"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6ff029a5-f488-4e03-8103-762925111e55"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6a07ea8b-3825-4664-8d88-a73e15b86728"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Default"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -569,7 +544,9 @@ namespace Assets.Scripts.OmaWatch.Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_DropAll = m_Player.FindAction("DropAll", throwIfNotFound: true);
+            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+            m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -582,7 +559,6 @@ namespace Assets.Scripts.OmaWatch.Input
             m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
             m_UI_TrackedPosition = m_UI.FindAction("Tracked Position", throwIfNotFound: true);
             m_UI_TrackedOrientation = m_UI.FindAction("Tracked Orientation", throwIfNotFound: true);
-            m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -634,14 +610,18 @@ namespace Assets.Scripts.OmaWatch.Input
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_DropAll;
+        private readonly InputAction m_Player_Interact;
         private readonly InputAction m_Player_Look;
+        private readonly InputAction m_Player_Pause;
         public struct PlayerActions
         {
             private @DefaultInputActions m_Wrapper;
             public PlayerActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @DropAll => m_Wrapper.m_Player_DropAll;
+            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputAction @Look => m_Wrapper.m_Player_Look;
+            public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -657,9 +637,15 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
                     @DropAll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropAll;
+                    @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -670,9 +656,15 @@ namespace Assets.Scripts.OmaWatch.Input
                     @DropAll.started += instance.OnDropAll;
                     @DropAll.performed += instance.OnDropAll;
                     @DropAll.canceled += instance.OnDropAll;
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -691,7 +683,6 @@ namespace Assets.Scripts.OmaWatch.Input
         private readonly InputAction m_UI_Cancel;
         private readonly InputAction m_UI_TrackedPosition;
         private readonly InputAction m_UI_TrackedOrientation;
-        private readonly InputAction m_UI_Pause;
         public struct UIActions
         {
             private @DefaultInputActions m_Wrapper;
@@ -706,7 +697,6 @@ namespace Assets.Scripts.OmaWatch.Input
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
             public InputAction @TrackedPosition => m_Wrapper.m_UI_TrackedPosition;
             public InputAction @TrackedOrientation => m_Wrapper.m_UI_TrackedOrientation;
-            public InputAction @Pause => m_Wrapper.m_UI_Pause;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -746,9 +736,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     @TrackedOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
                     @TrackedOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
                     @TrackedOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedOrientation;
-                    @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
-                    @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
-                    @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -783,9 +770,6 @@ namespace Assets.Scripts.OmaWatch.Input
                     @TrackedOrientation.started += instance.OnTrackedOrientation;
                     @TrackedOrientation.performed += instance.OnTrackedOrientation;
                     @TrackedOrientation.canceled += instance.OnTrackedOrientation;
-                    @Pause.started += instance.OnPause;
-                    @Pause.performed += instance.OnPause;
-                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -803,7 +787,9 @@ namespace Assets.Scripts.OmaWatch.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnDropAll(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -817,7 +803,6 @@ namespace Assets.Scripts.OmaWatch.Input
             void OnCancel(InputAction.CallbackContext context);
             void OnTrackedPosition(InputAction.CallbackContext context);
             void OnTrackedOrientation(InputAction.CallbackContext context);
-            void OnPause(InputAction.CallbackContext context);
         }
     }
 }

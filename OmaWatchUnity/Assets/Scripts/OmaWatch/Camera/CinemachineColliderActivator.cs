@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Camera
 {
-    [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CinemachineColliderActivator : MonoBehaviour
     {
         public int TargetPriority = 20;
@@ -14,7 +13,7 @@ namespace Assets.Scripts.OmaWatch.Camera
         {
             if (GetComponent<Collider2D>() == null)
                 Debug.LogWarning($"{nameof(CinemachineColliderActivator)} needs an attached Collider!");
-            _virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
             _virtualCamera.Priority = 0;
         }
 

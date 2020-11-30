@@ -21,13 +21,11 @@ namespace Assets.Scripts.Common.Input
 
         public override Vector2 Process(Vector2 value, InputControl control)
         {
-            var result = new Vector2(value.x / Screen.width, value.y / Screen.height);
-            Debug.Log(result);
-            return result;
+            return new Vector2(value.x / Screen.width, value.y / Screen.height);
         }
 
         [RuntimeInitializeOnLoadMethod]
-        static void Initialize()
+        public static void Initialize()
         {
             InputSystem.RegisterProcessor<AbsoluteToRelativePointerPositionProcessor>();
         }

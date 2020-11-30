@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace UniRx
+﻿namespace UniRx
 {
     public interface ISubject<TSource, TResult> : IObserver<TSource>, IObservable<TResult>
     {

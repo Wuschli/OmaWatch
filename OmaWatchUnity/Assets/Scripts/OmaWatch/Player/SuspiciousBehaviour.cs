@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Assets.Scripts.OmaWatch.World;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.OmaWatch.Player
 {
     public class SuspiciousBehaviour : MonoBehaviour
     {
-        [FormerlySerializedAs("safeTilemap")]
-        public Tilemap SafeTilemap;
         private ScrapTrail _trail;
 
         public bool IsSuspicious { get; private set; }
         public bool PlayerGrabbed { get; set; }
+
+        public GameObject DEBUG_TileIndicator;
 
         private void Awake()
         {
@@ -21,6 +19,9 @@ namespace Assets.Scripts.OmaWatch.Player
 
         private void Update()
         {
+            if (DEBUG_TileIndicator != null)
+                DEBUG_TileIndicator.transform.position = WorldRoot.Instance.ClampToTile(transform.position);
+
             if (PlayerGrabbed)
             {
                 SetSuspicious(false);
@@ -33,12 +34,7 @@ namespace Assets.Scripts.OmaWatch.Player
                 return;
             }
 
-            var position = transform.position;
-            var local = SafeTilemap.WorldToCell(position);
-            local.z = 0;
-
-            var tile = SafeTilemap.GetTile(local);
-            if (tile == null)
+            if (!WorldRoot.Instance.IsTileSafe(transform.position))
             {
                 SetSuspicious(true);
                 return;

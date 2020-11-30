@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine.AI;
+using UnityEngine;
 
 namespace Assets.Scripts.OmaWatch.Ai.Tasks
 {
@@ -20,9 +20,17 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks
         {
             try
             {
-                agent.Nav?.Stop();
+                agent.Nav.Stop();
 
-                await Task.Delay((int) (_exhaustedTime * 1000));
+                var wait = _exhaustedTime;
+                while (wait > 0)
+                {
+                    _token.Token.ThrowIfCancellationRequested();
+
+                    await Task.Yield();
+                    wait -= Time.deltaTime;
+                }
+                
                 return TaskResult.Success;
             }
             catch (OperationCanceledException)

@@ -5,7 +5,6 @@
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
-/[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
@@ -62,3 +61,4 @@ OmaWatchUnity/Library
 OmaWatchUnity/Temp
 OmaWatchUnity/Logs
 obj
+bin
