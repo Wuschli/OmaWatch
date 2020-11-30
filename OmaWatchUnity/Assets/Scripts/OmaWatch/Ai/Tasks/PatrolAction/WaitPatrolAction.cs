@@ -10,7 +10,14 @@ namespace Assets.Scripts.OmaWatch.Ai.Tasks.PatrolAction
 
         public async Task Execute(AgentBehaviour agent, CancellationToken token)
         {
-            await Task.Delay((int) (1000 * WaitTime), token);
+            var wait = WaitTime;
+            while (wait > 0)
+            {
+                token.ThrowIfCancellationRequested();
+
+                await Task.Yield();
+                wait -= Time.deltaTime;
+            }
         }
     }
 }
